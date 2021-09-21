@@ -198,7 +198,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('frontend.index');
+        $allproducts= Product::orderBy('id','DESC')->paginate(20);
+
+        return view('frontend.index',compact('allproducts'));
     }
 
     public function flash_deal_details($slug)
@@ -263,10 +265,13 @@ class HomeController extends Controller
         $shop  = Shop::where('slug', $slug)->first();
         if($shop!=null){
             $seller = Seller::where('user_id', $shop->user_id)->first();
+
             if ($seller->verification_status != 0){
+
                 return view('frontend.seller_shop', compact('shop'));
             }
             else{
+
                 return view('frontend.seller_shop_without_verification', compact('shop', 'seller'));
             }
         }

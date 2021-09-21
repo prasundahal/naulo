@@ -47,45 +47,34 @@
 <!-- Favicon -->
 <link type="image/x-icon" href="{{ asset(\App\GeneralSetting::first()->favicon) }}" rel="shortcut icon" />
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-
-<!-- Bootstrap -->
-<link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}" type="text/css" media="all">
 
 <!-- Icons -->
 <link rel="stylesheet" href="{{ asset('frontend/css/font-awesome.min.css') }}" type="text/css" media="none" onload="if(media!='all')media='all'">
 <link rel="stylesheet" href="{{ asset('frontend/css/line-awesome.min.css') }}" type="text/css" media="none" onload="if(media!='all')media='all'">
 
-<link type="text/css" href="{{ asset('frontend/css/bootstrap-tagsinput.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-<link type="text/css" href="{{ asset('frontend/css/jodit.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-<link type="text/css" href="{{ asset('frontend/css/sweetalert2.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-<link type="text/css" href="{{ asset('frontend/css/slick.css') }}" rel="stylesheet" media="all">
-<link type="text/css" href="{{ asset('frontend/css/xzoom.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-<link type="text/css" href="{{ asset('frontend/css/jssocials.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-<link type="text/css" href="{{ asset('frontend/css/jssocials-theme-flat.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-<link type="text/css" href="{{ asset('frontend/css/intlTelInput.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-<link type="text/css" href="{{ asset('css/spectrum.css')}}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
 
 <!-- Global style (main) -->
-<link type="text/css" href="{{ asset('frontend/css/active-shop.css') }}" rel="stylesheet" media="all">
 
 
-<link type="text/css" href="{{ asset('frontend/css/main.css') }}" rel="stylesheet" media="all">
+ <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&amp;amp;subset=latin-ext" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/linearicons/font/demo-files/demo.css') }}" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="{{ asset('gh/dogfalo/materialize_master/extras/nouislider/nouislider.css') }}" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/jquery-bar-rating/dist/themes/fontawesome-stars.css') }}" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/owl-carousel/assets/owl.carousel.min.css') }}" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/slick/slick.css') }}" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/lightgallery/dist/css/lightgallery.min.css') }}" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" rel="stylesheet" media="all">
+
+
 
 @if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
      <!-- RTL -->
-    <link type="text/css" href="{{ asset('frontend/css/active.rtl.css') }}" rel="stylesheet" media="all">
+    {{-- <link type="text/css" href="{{ asset('frontend/css/active.rtl.css') }}" rel="stylesheet" media="all"> --}}
 @endif
 
-<!-- color theme -->
-<link href="{{ asset('frontend/css/colors/'.\App\GeneralSetting::first()->frontend_color.'.css')}}" rel="stylesheet" media="all">
-
-<!-- Custom style -->
-<link type="text/css" href="{{ asset('frontend/css/custom-style.css') }}" rel="stylesheet" media="all">
-
-<!-- jQuery -->
-<script src="{{ asset('frontend/js/vendor/jquery.min.js') }}"></script>
 
 
 @if (\App\BusinessSetting::where('type', 'google_analytics')->first()->value == 1)
@@ -120,74 +109,49 @@
 </noscript>
 <!-- End Facebook Pixel Code -->
 @endif
-
 </head>
 <body>
+        <div>
+         @include('frontend.inc.nav')
+       @yield('content')
+        @include('frontend.inc.footer')
+        @include('frontend.partials.modal')
 
+           <script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/plugins/jquery.min.js"></script>
+            <script src="{{ asset('assets/plugins/popper.min.js') }}"></script>
+            <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('assets/plugins/owl-carousel/owl.carousel.min.js') }}"></script>
+            <script src="{{ asset('assets/plugins/jquery.matchheight-min.js') }}"></script>
+            <script src="{{ asset('assets/plugins/jquery-bar-rating/dist/jquery.barrating.min.js') }}"></script>
+            <script src="{{ asset('assets/plugins/select2/dist/js/select2.min.js') }}"></script>
+            <script src="{{ asset('assets/plugins/slick/slick.js') }}"></script>
+            <script src="{{ asset('assets/plugins/lightgallery/dist/js/lightgallery-all.min.js') }}"></script>
+            <script src="{{ asset('gh/dogfalo/materialize_master/extras/nouislider/nouislider.min.js') }}"></script>
+            <!-- custom code-->
+            <script src="{{ asset('frontend/js/xzoom.min.js') }}"></script>
+            <script src="{{ asset('frontend/js/vendor/popper.min.js') }}"></script>
+            <script src="{{ asset('frontend/js/vendor/bootstrap.min.js') }}"></script>
 
-<!-- MAIN WRAPPER -->
-<div class="body-wrap shop-default shop-cards shop-tech gry-bg">
+            <!-- Plugins: Sorted A-Z -->
+            <script src="{{ asset('frontend/js/jquery.countdown.min.js') }}"></script>
+            <script src="{{ asset('frontend/js/select2.min.js') }}"></script>
+            <script src="{{ asset('frontend/js/nouislider.min.js') }}"></script>
+            <script src="{{ asset('frontend/js/sweetalert2.min.js') }}"></script>
+            <script src="{{ asset('frontend/js/slick.min.js') }}"></script>
+            <script src="{{ asset('frontend/js/jssocials.min.js') }}"></script>
+            <script src="{{ asset('frontend/js/bootstrap-tagsinput.min.js') }}"></script>
+            <script src="{{ asset('frontend/js/jodit.min.js') }}"></script>
+            <script src="{{ asset('frontend/js/xzoom.min.js') }}"></script>
+            <script src="{{ asset('frontend/js/fb-script.js') }}"></script>
+            <script src="{{ asset('frontend/js/lazysizes.min.js') }}"></script>
+            <script src="{{ asset('frontend/js/intlTelInput.min.js') }}"></script>
 
-    <!-- Header -->
-    @include('frontend.inc.nav')
+            <!-- App JS -->
+            <script src="{{ asset('frontend/js/active-shop.js') }}"></script>
+            <script src="{{ asset('frontend/js/main.js') }}"></script>
 
-    @yield('content')
+            <script src="{{ asset('assets/js/main.js') }}"></script>
 
-    @include('frontend.inc.footer')
-
-    @include('frontend.partials.modal')
-
-    @if (\App\BusinessSetting::where('type', 'facebook_chat')->first()->value == 1)
-        <div id="fb-root"></div>
-        <!-- Your customer chat code -->
-        <div class="fb-customerchat"
-          attribution=setup_tool
-          page_id="{{ env('FACEBOOK_PAGE_ID') }}">
-        </div>
-    @endif
-
-    <div class="modal fade" id="addToCart">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom product-modal" id="modal-size" role="document">
-            <div class="modal-content position-relative">
-                <div class="c-preloader">
-                    <i class="fa fa-spin fa-spinner"></i>
-                </div>
-                <button type="button" class="close absolute-close-btn" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div id="addToCart-modal-body">
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div><!-- END: body-wrap -->
-
-<!-- SCRIPTS -->
-<!-- <a href="#" class="back-to-top btn-back-to-top"></a> -->
-
-<!-- Core -->
-<script src="{{ asset('frontend/js/vendor/popper.min.js') }}"></script>
-<script src="{{ asset('frontend/js/vendor/bootstrap.min.js') }}"></script>
-
-<!-- Plugins: Sorted A-Z -->
-<script src="{{ asset('frontend/js/jquery.countdown.min.js') }}"></script>
-<script src="{{ asset('frontend/js/select2.min.js') }}"></script>
-<script src="{{ asset('frontend/js/nouislider.min.js') }}"></script>
-<script src="{{ asset('frontend/js/sweetalert2.min.js') }}"></script>
-<script src="{{ asset('frontend/js/slick.min.js') }}"></script>
-<script src="{{ asset('frontend/js/jssocials.min.js') }}"></script>
-<script src="{{ asset('frontend/js/bootstrap-tagsinput.min.js') }}"></script>
-<script src="{{ asset('frontend/js/jodit.min.js') }}"></script>
-<script src="{{ asset('frontend/js/xzoom.min.js') }}"></script>
-<script src="{{ asset('frontend/js/fb-script.js') }}"></script>
-<script src="{{ asset('frontend/js/lazysizes.min.js') }}"></script>
-<script src="{{ asset('frontend/js/intlTelInput.min.js') }}"></script>
-
-<!-- App JS -->
-<script src="{{ asset('frontend/js/active-shop.js') }}"></script>
-<script src="{{ asset('frontend/js/main.js') }}"></script>
 
 
 <script>
@@ -580,6 +544,6 @@
 </script>
 
 @yield('script')
+        </div>
+ </body>
 
-</body>
-</html>

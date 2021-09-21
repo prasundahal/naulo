@@ -40,245 +40,202 @@
             $rating += $seller_product->reviews->sum('rating');
         }
     @endphp
-
-    <section class="gry-bg pt-4 ">
+  <main class="no-main">
+    <div class="ps-breadcrumb">
         <div class="container">
-            <div class="row align-items-baseline">
-                <div class="col-md-6">
-                    <div class="d-flex">
-                        <img
-                            height="70"
-                            class="lazyload"
-                            src="{{ asset('frontend/images/placeholder.jpg') }}"
-                            data-src="@if ($shop->logo !== null) {{ asset($shop->logo) }} @else {{ asset('frontend/images/placeholder.jpg') }} @endif"
-                            alt="{{ $shop->name }}"
-                        >
-                        <div class="pl-4">
-                            <h3 class="strong-700 heading-4 mb-0">{{ $shop->name }}
-                                @if ($shop->user->seller->verification_status == 1)
-                                    <span class="ml-2"><i class="fa fa-check-circle" style="color:green"></i></span>
-                                @else
-                                    <span class="ml-2"><i class="fa fa-times-circle" style="color:red"></i></span>
-                                @endif
-                            </h3>
-                            <div class="star-rating star-rating-sm mb-1">
-                                @if ($total > 0)
-                                    {{ renderStarRating($rating/$total) }}
-                                @else
-                                    {{ renderStarRating(0) }}
-                                @endif
-                            </div>
-                            <div class="location alpha-6">{{ $shop->address }}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <ul class="text-md-right mt-4 mt-md-0 social-nav model-2">
-                        @if ($shop->facebook != null)
-                            <li>
-                                <a href="{{ $shop->facebook }}" class="facebook social_a" target="_blank" data-toggle="tooltip" data-original-title="Facebook">
-                                    <i class="fa fa-facebook"></i>
-                                </a>
-                            </li>
-                        @endif
-                        @if ($shop->twitter != null)
-                            <li>
-                                <a href="{{ $shop->twitter }}" class="twitter social_a" target="_blank" data-toggle="tooltip" data-original-title="Twitter">
-                                    <i class="fa fa-twitter"></i>
-                                </a>
-                            </li>
-                        @endif
-                        @if ($shop->google != null)
-                            <li>
-                                <a href="{{ $shop->google }}" class="google-plus social_a" target="_blank" data-toggle="tooltip" data-original-title="Google">
-                                    <i class="fa fa-google-plus"></i>
-                                </a>
-                            </li>
-                        @endif
-                        @if ($shop->youtube != null)
-                            <li>
-                                <a href="{{ $shop->youtube }}" class="youtube social_a" target="_blank" data-toggle="tooltip" data-original-title="Youtube">
-                                    <i class="fa fa-youtube"></i>
-                                </a>
-                            </li>
-                        @endif
-                    </ul>
-                </div>
-            </div>
+            <ul class="ps-breadcrumb__list">
+                <li class="active"><a href="index.html">Home</a></li>
+                <li class="active"><a href="vendor-list.html">Store List</a></li>
+                <li><a href="javascript:void(0);">Sangita Ymart</a></li>
+            </ul>
         </div>
-    </section>
-    <section class="bg-white">
-        <div class="container">
-            <div class="row sticky-top mt-4">
-                <div class="col">
-                    <div class="seller-shop-menu">
-                        <ul class="inline-links">
-                            <li @if(!isset($type)) class="active" @endif><a href="{{ route('shop.visit', $shop->slug) }}">{{__('Store Home')}}</a></li>
-                            <li @if(isset($type) && $type == 'top_selling') class="active" @endif><a href="{{ route('shop.visit.type', ['slug'=>$shop->slug, 'type'=>'top_selling']) }}">{{__('Top Selling')}}</a></li>
-                            <li @if(isset($type) && $type == 'all_products') class="active" @endif><a href="{{ route('shop.visit.type', ['slug'=>$shop->slug, 'type'=>'all_products']) }}">{{__('All Products')}}</a></li>
+    </div>
+
+<section class="section--vendorStore">
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-3">
+            <div class="widget--block">
+                <h5 class="widget__title">ALL CATEGORIES</h5>
+                <ul class="menu--mobile widget__list">
+
+                    <li class="category-item"> <a href="shop-categories.html">Beer, Wine & Spirits</a>
+                    </li>
+                    <li class="category-item"> <a href="shop-categories.html">Bakery</a>
+                    </li>
+                    <li class="category-item"> <a href="shop-categories.html">Frozen Foods</a>
+                    </li>
+                    <li class="category-item"> <a href="shop-categories.html">Drinks, Tea & Coffee</a>
+                    </li>
+                    <li class="category-item"> <a href="shop-categories.html">Beer, Wine & Spirits</a>
+                    </li>
+                    <li class="category-item"> <a href="shop-categories.html">Bakery</a>
+                    </li>
+                    <li class="category-item"> <a href="shop-categories.html">Frozen Foods</a>
+                    </li>
+                    <li class="category-item"> <a href="shop-categories.html">Drinks, Tea & Coffee</a>
+                    </li>
+                    <li class="category-item"> <a href="shop-categories.html">Beer, Wine & Spirits</a>
+                    </li>
+                    <li class="category-item"> <a href="shop-categories.html">Baby & Child</a>
+                    </li>
+                    <li class="category-item"> <a href="shop-categories.html">Kitchen & Dining</a>
+                    </li>
+                    <li class="menu-item-has-children category-item"><a href="shop-categories.html">Ready Meals</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
+                        <ul class="sub-menu">
+                            <li> <a href="shop-view-grid.html">Traditional British</a>
+                            </li>
+                            <li> <a href="shop-view-grid.html">Indian</a>
+                            </li>
+                            <li> <a href="shop-view-grid.html">Italian</a>
+                            </li>
+                            <li> <a href="shop-view-grid.html">Chinese</a>
+                            </li>
                         </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="store__location">
+                <h5 class="widget__title">STORE LOCATIONS</h5>
+                <iframe src="https://maps.google.com/maps?q=One%20Store%20One%20Store%20Boudhanath%20Sadak,%20Kathmandu%2044600&t=&z=15&ie=UTF8&iwloc=&output=embed" width="600" height="450" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+            <div class="contact__vendor">
+                <h5 class="widget__title">CONTACT VENDOR</h5>
+                <form>
+                    <div class="form-row">
+                        <div class="col-12 form-group--block">
+                            <input class="form-control" type="text" placeholder="Your Name">
+                        </div>
+                        <div class="col-12 form-group--block">
+                            <input class="form-control" type="text" placeholder="you@example.com">
+                        </div>
+                        <div class="col-12 form-group--block">
+                            <textarea class="form-control" placeholder="Type your message..."></textarea>
+                        </div>
+                        <div class="col-12 form-group--block">
+                            <button class="btn ps-button">Send Message</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
-    </section>
 
-    @if (!isset($type))
-        <section class="py-4">
-            <div class="container">
-                <div class="home-slide">
-                    <div class="slick-carousel" data-slick-arrows="true" data-slick-dots="true">
-                        @if ($shop->sliders != null)
-                            @foreach (json_decode($shop->sliders) as $key => $slide)
-                                <div class="">
-                                    <img class="d-block w-100 lazyload" src="{{ asset('frontend/images/placeholder-rect.jpg') }}" data-src="{{ asset($slide) }}" alt="{{ $key }} slide" style="max-height:300px;">
-                                </div>
-                            @endforeach
-                        @endif
+        <div class="col-12 col-lg-9">
+            <div class="store__header">
+                <div class="row m-0">
+                    <div class="col-12 col-lg-4 p-0">
+                        <div class="store__avatar"><img src="assets/img/vendor_store_avatar.jpg" alt></div>
                     </div>
-                </div>
-            </div>
-        </section>
-        <section class="sct-color-1 pt-5 pb-4">
-            <div class="container">
-                <div class="section-title section-title--style-1 text-center mb-4">
-                    <h3 class="section-title-inner heading-3 strong-600">
-                        {{__('Featured Products')}}
-                    </h3>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="caorusel-box arrow-round gutters-15">
-                            <div class="slick-carousel center-mode" data-slick-items="5" data-slick-lg-items="3"  data-slick-md-items="3" data-slick-sm-items="1" data-slick-xs-items="1">
-                                @foreach ($shop->user->products->where('published', 1)->where('featured', 1) as $key => $product)
-                                    <div class="caorusel-card my-5">
-                                        <div class="product-card-2 card card-product shop-cards shop-tech">
-                                            <div class="card-body p-0">
-
-                                                <div class="card-image">
-                                                    <a href="{{ route('product', $product->slug) }}" class="d-block">
-                                                        <img  class="mx-auto img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img) }}" alt="{{ __($product->name) }}">
-                                                    </a>
-                                                </div>
-
-                                                <div class="p-3">
-                                                    <div class="price-box">
-                                                        <del class="old-product-price strong-400">{{ home_base_price($product->id) }}</del>
-                                                        <span class="product-price strong-600">{{ home_discounted_base_price($product->id) }}</span>
-                                                    </div>
-                                                    <div class="star-rating star-rating-sm mt-1">
-                                                        {{ renderStarRating($product->rating) }}
-                                                    </div>
-                                                    <h2 class="product-title p-0 text-truncate-2">
-                                                        <a href="{{ route('product', $product->slug) }}">{{ __($product->name) }}</a>
-                                                    </h2>
-                                                    @if (\App\Addon::where('unique_identifier', 'club_point')->first() != null && \App\Addon::where('unique_identifier', 'club_point')->first()->activated)
-                                                        <div class="club-point mt-2 bg-soft-base-1 border-light-base-1 border">
-                                                            {{ __('Club Point') }}:
-                                                            <span class="strong-700 float-right">{{ $product->earn_point }}</span>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                    <div class="col-12 col-lg-8 p-0">
+                        <div class="store__detail">
+                            <h3 class="store__name">Sangita Ymart</h3>
+                            <p class="store__address">Budhanilkantha Municipality-14 Kapan, 44600 Kathmandu Nepal</p>
+                            <p class="store__phone">(+977) 9810099062</p>
+                            <p class="store__email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7b081a16080e151c241c1a0f131e093b1c161a121755181416">[email&#160;protected]</a></p>
+                            <div class="store__rating">
+                                <select class="rating-stars">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4" selected="selected">4</option>
+                                    <option value="5">5</option>
+                                </select><span>(43 ratings)</span>
                             </div>
+                            <div class="store__social"><a class="icon_social facebook" href="#"><i class="fa fa-facebook-f"></i></a><a class="icon_social twitter" href="#"><i class="fa fa-twitter"></i></a><a class="icon_social google" href="#"><i class="fa fa-google-plus"></i></a><a class="icon_social youtube" href="#"><i class="fa fa-youtube"></i></a><a class="icon_social wifi" href="#"><i class="fa fa-wifi"></i></a></div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    @endif
+            <div class="store__perpage">
+                <p class="result"> <span>60</span>Products Found</p>
+                <p class="text-right">page
+                    <input type="text" value="1">of 3
+                </p>
+            </div>
+            <div class="viewtype--block">
+                <div class="viewtype__sortby">
+                    <div class="select">
+                        <select class="single-select2" name="state">
+                            <option value="popularity">Sort by popularity</option>
+                            <option value="price">Sort by price</option>
+                            <option value="sale">Sort by sale of</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="viewtype__select"> <span class="text">View: </span>
+                    <div class="select">
+                        <select class="single-select2" name="state">
+                            <option value="25">20 per page</option>
+                            <option value="12">12 per page</option>
+                            <option value="5">5 per page</option>
+                        </select>
+                    </div>
+                    <div class="type">
+                        <span class="active"><i class="icon-icons"></i></span>
+                        <!-- <span><i class="icon-icons2"></i></span> -->
+                        <span><i class="icon-list4"></i></span>
+                    </div>
+                </div>
+            </div>
+        <div class="store__product">
+            <div class="row m-0">
 
-
-    <section class="@if (!isset($type)) gry-bg @endif pt-5">
-        <div class="container">
-            <h4 class="heading-5 strong-600 border-bottom pb-3 mb-4">
-                @if (!isset($type))
-                    {{__('New Arrival Products')}}
-                @elseif ($type == 'top_selling')
-                    {{__('Top Selling')}}
-                @elseif ($type == 'all_products')
-                    {{__('All Products')}}
-                @endif
-            </h4>
-            <div class="product-list row gutters-5 sm-no-gutters">
-                @php
-                    if (!isset($type)){
-                        $products = \App\Product::where('user_id', $shop->user->id)->where('published', 1)->orderBy('created_at', 'desc')->paginate(24);
-                    }
-                    elseif ($type == 'top_selling'){
-                        $products = \App\Product::where('user_id', $shop->user->id)->where('published', 1)->orderBy('num_of_sale', 'desc')->paginate(24);
-                    }
-                    elseif ($type == 'all_products'){
-                        $products = \App\Product::where('user_id', $shop->user->id)->where('published', 1)->paginate(24);
-                    }
-                @endphp
+{{  $products = \App\Product::where('user_id', $shop->user->id)->where('published', 1)->paginate(24) }}
                 @foreach ($products as $key => $product)
-                    <div class="col-xxl-2 col-lg-3 col-md-4 col-6">
-                        <div class="card product-box-1 mb-3">
-                            <div class="card-image">
-                                <a href="{{ route('product', $product->slug) }}" class="d-block text-center">
-                                    <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->thumbnail_img) }}" alt="{{ __($product->name) }}">
-                                </a>
+                <div class="col-6 col-md-4 col-lg-3 p-0">
+                    <div class="ps-product--standard"><a href="product_details.html"><img class="ps-product__thumbnail" src="{{ asset($product->thumbnail_img) }}" data-src="{{ asset($product->thumbnail_img) }}" alt="{{ __($product->name) }}" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a><span class="ps-badge ps-product__offbadge">32% Off </span>
+                        <div class="ps-product__content">
+                            {{-- <p class="ps-product__type"><i class="icon-store"></i>NauloMart</p> --}}
+                            <h5><a class="ps-product__name" href="{{ route('product', $product->slug) }}">{{ __($product->name) }}</a></h5>
+                            <p class="ps-product__unit">300g</p>
+                            <div class="ps-product__rating">
+                                <select class="rating-stars">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5" selected="selected">5</option>
+                                </select><span>(14)</span>
                             </div>
-                            <div class="card-body p-0">
-                                <div class="px-3 py-2">
-                                     @if (\App\Addon::where('unique_identifier', 'club_point')->first() != null && \App\Addon::where('unique_identifier', 'club_point')->first()->activated)
-                                        <div class="club-point mb-2 bg-soft-base-1 border-light-base-1 border">
-                                            {{ __('Club Point') }}:
-                                            <span class="strong-700 float-right">{{ $product->earn_point }}</span>
-                                        </div>
-                                    @endif
-                                    <h2 class="title text-truncate-2 mb-0">
-                                        <a href="{{ route('product', $product->slug) }}">{{ __($product->name) }}</a>
-                                    </h2>
-                                </div>
-                                <div class="price-bar row no-gutters">
-                                    <div class="price col-md-7">
-                                        @if(home_price($product->id) != home_discounted_price($product->id))
-                                            <del class="old-product-price strong-600">{{ home_base_price($product->id) }}</del>
-                                            <span class="product-price strong-600">{{ home_discounted_base_price($product->id) }}</span>
-                                        @else
-                                            <span class="product-price strong-600">{{ home_discounted_base_price($product->id) }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="star-rating star-rating-sm float-md-right">
-                                            {{ renderStarRating($product->rating) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="cart-add d-flex">
-                                    <button class="btn add-wishlist border-right" title="Add to Wishlist" onclick="addToWishList({{ $product->id }})">
-                                        <i class="la la-heart-o"></i>
-                                    </button>
-                                    <button class="btn add-compare border-right" title="Add to Compare" onclick="addToCompare({{ $product->id }})">
-                                        <i class="la la-refresh"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-block btn-icon-left" onclick="showAddToCartModal({{ $product->id }})">
-                                        <span class="d-none d-sm-inline-block">{{__('Add to cart')}}</span><i class="la la-shopping-cart ml-2"></i>
-                                    </button>
-                                </div>
+                            <p class="ps-product-price-block"><span class="ps-product__sale">Rs100.00</span><span class="ps-product__price">Rs112.00</span>
+                            </p>
+                        </div>
+                        <div class="ps-product__footer">
+                            <div class="def-number-input number-input safari_only">
+                                <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
+                                <input class="quantity" min="0" name="quantity" value="1" type="number" />
+                                <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
                             </div>
+                            <div class="ps-product__total">Total: <span>Rs100.00</span>
+                            </div>
+                            <button class="ps-product__addcart" onclick="showAddToCartModal({{ $product->id }})"><i class="icon-cart"></i>Add to cart</button>
+
                         </div>
                     </div>
-                @endforeach
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="products-pagination my-5">
-                        <nav aria-label="Center aligned pagination">
-                            <ul class="pagination justify-content-center">
-                                {{ $products->links() }}
-                            </ul>
-                        </nav>
-                    </div>
                 </div>
+                @endforeach
+
             </div>
         </div>
-    </section>
+        <div class="ps-pagination blog--pagination">
+            <ul class="pagination">
+                <li class="chevron"><a href="#"><i class="icon-chevron-left"></i></a></li>
+                {{ $products->links() }}
+                <li class="chevron"><a href="#"><i class="icon-chevron-right"></i></a></li>
+            </ul>
+        </div>
+        </div>
+
+    </div>
+</div>
+</section>
+
+</main>
+
+
+
+
+
 
 
 @endsection

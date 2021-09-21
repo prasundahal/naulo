@@ -1,660 +1,359 @@
-<div class="header bg-white">
-    <!-- Top Bar -->
-    <div class="top-navbar">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7 col">
-                    <ul class="inline-links d-lg-inline-block d-flex justify-content-between">
-                        <li class="dropdown" id="lang-change">
-                            @php
-                                if(Session::has('locale')){
-                                    $locale = Session::get('locale', Config::get('app.locale'));
-                                }
-                                else{
-                                    $locale = 'en';
-                                }
-                            @endphp
-                            <a href="" class="dropdown-toggle top-bar-item" data-toggle="dropdown">
-                                <img src="{{ asset('frontend/images/placeholder.jpg') }}" height="11" data-src="{{ asset('frontend/images/icons/flags/'.$locale.'.png') }}" class="flag lazyload" alt="{{ \App\Language::where('code', $locale)->first()->name }}" height="11"><span class="language">{{ \App\Language::where('code', $locale)->first()->name }}</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                @foreach (\App\Language::all() as $key => $language)
-                                    <li class="dropdown-item @if($locale == $language) active @endif">
-                                        <a href="#" data-flag="{{ $language->code }}"><img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset('frontend/images/icons/flags/'.$language->code.'.png') }}" class="flag lazyload" alt="{{ $language->name }}" height="11"><span class="language">{{ $language->name }}</span></a>
+  <header class="header ps-header--dark">
+                <div class="ps-top-bar">
+                    <div class="container">
+                        <div class="top-bar">
+                            <div class="top-bar__left">
+                                <ul class="nav-top-dark">
+                                    <li class="nav-top-item"> <a href="javascript:void(0);"><i class='icon-map-marker'></i>Gokarna, 44600 Kathmandu, Nepal.</a>
                                     </li>
-                                @endforeach
-                            </ul>
-                        </li>
-
-                        <li class="dropdown" id="currency-change">
-                            @php
-                                if(Session::has('currency_code')){
-                                    $currency_code = Session::get('currency_code');
-                                }
-                                else{
-                                    $currency_code = \App\Currency::findOrFail(\App\BusinessSetting::where('type', 'system_default_currency')->first()->value)->code;
-                                }
-                            @endphp
-                            <a href="" class="dropdown-toggle top-bar-item" data-toggle="dropdown">
-                                {{ \App\Currency::where('code', $currency_code)->first()->name }} {{ (\App\Currency::where('code', $currency_code)->first()->symbol) }}
-                            </a>
-                            <ul class="dropdown-menu">
-                                @foreach (\App\Currency::where('status', 1)->get() as $key => $currency)
-                                    <li class="dropdown-item @if($currency_code == $currency->code) active @endif">
-                                        <a href="" data-currency="{{ $currency->code }}">{{ $currency->name }} ({{ $currency->symbol }})</a>
+                                    <li class="nav-top-item"> <a href="javascript:void(0);"><i class='icon-telephone'></i> +977-9810099062</a>
                                     </li>
-                                @endforeach
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-5 text-right d-none d-lg-block">
-                    <ul class="inline-links">
-                        <li>
-                            <a href="{{ route('orders.track') }}" class="top-bar-item">{{__('Track Order')}}</a>
-                        </li>
-                        @if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated)
-                            <li>
-                                <a href="{{ route('affiliate.apply') }}" class="top-bar-item">{{__('Be an affiliate partner')}}</a>
-                            </li>
-                        @endif
-                        @auth
-                        <li>
-                            <a href="{{ route('dashboard') }}" class="top-bar-item">{{__('My Panel')}}</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('logout') }}" class="top-bar-item">{{__('Logout')}}</a>
-                        </li>
-                        @else
-                        <li>
-                            <a href="{{ route('user.login') }}" class="top-bar-item">{{__('Login')}}</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('user.registration') }}" class="top-bar-item">{{__('Registration')}}</a>
-                        </li>
-                        @endauth
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- END Top Bar -->
-
-    <!-- mobile menu -->
-    <div class="mobile-side-menu d-lg-none">
-        <div class="side-menu-overlay opacity-0" onclick="sideMenuClose()"></div>
-        <div class="side-menu-wrap opacity-0">
-            <div class="side-menu closed">
-                <div class="side-menu-header ">
-                    <div class="side-menu-close" onclick="sideMenuClose()">
-                        <i class="la la-close"></i>
+                                </ul>
+                            </div>
+                            <div class="top-bar__right">
+                                <ul class="nav-top">
+                                    <li class="nav-top-item"><a class="nav-top-link" href="vendor-registration.html">Sell on NauloBazar</a></li>
+                                    <li class="nav-top-item"><a class="nav-top-link" href="order-tracking.html">Order Tracking</a></li>
+                                    <li class="nav-top-item languages"><a class="nav-top-link" href="javascript:void(0);"> <span class="current-languages">English</span><i class="icon-chevron-down"></i></a>
+                                        <div class="select--dropdown">
+                                            <ul class="select-languages">
+                                                <li class="active language-item" data-value="English"><a href="javascript:void(0);">English</a></li>
+                                                <li class="language-item" data-value="Nepali"><a href="javascript:void(0);">Nepali</a></li>
+                                                <li class="language-item" data-value="Hindi"><a href="javascript:void(0);">Hindi</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="nav-top-item account"><a class="nav-top-link" href="javascript:void(0);"> <i class="icon-user"></i>Hi! <span class="font-bold">Bikash Bhandari</span></a>
+                                        <div class="account--dropdown">
+                                            <div class="account-anchor">
+                                                <div class="triangle"></div>
+                                            </div>
+                                            <div class="account__content">
+                                                <ul class="account-list">
+                                                    <li class="title-item">My Account
+                                                    </li>
+                                                    <li> <a href="dashboard.html">
+                                                    <i class="icon-menu-circle">&nbsp;</i> Dasdboard</a>
+                                                    </li>
+                                                    <li> <a href="my_profile.html">
+                                                    <i class="icon-users2">&nbsp;</i> My Profile</a>
+                                                    </li>
+                                                    <li> <a href="my_address.html">
+                                                    <i class="icon-map-marker-user">&nbsp;</i> My Address Book</a>
+                                                    </li>
+                                                    <li> <a href="my_order.html">
+                                                        <i class="icon-cart-add">&nbsp;</i> My Orders</a>
+                                                    </li>
+                                                    <li> <a href="my_returns.html">
+                                                    <i class="icon-cart-remove">&nbsp;</i> My Returns</a>
+                                                    </li>
+                                                    <li> <a href="my_cancel.html"> <i class="icon-stream-error">&nbsp;</i> My Cancellations</a>
+                                                    </li>
+                                                    <li> <a href="wishlist.html">
+                                                    <i class="icon-heart">&nbsp;</i> My Wishlist</a>
+                                                    </li>
+                                                    <li> <a href="my_reviews.html">
+                                                    <i class="icon-star">&nbsp;</i> My Reviews</a>
+                                                    </li>
+                                                    <li> <a href="change_password.html">
+                                                    <i class="icon-eye">&nbsp;</i> Change Password</a>
+                                                    </li>
+                                                </ul>
+                                                <a class="account-logout" href="index.html"><i class="icon-exit-left"></i>Log Out</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-
-                    @auth
-                        <div class="widget-profile-box px-3 py-4 d-flex align-items-center">
-                            @if (Auth::user()->avatar_original != null)
-                                <div class="image " style="background-image:url('{{ asset(Auth::user()->avatar_original) }}')"></div>
-                            @else
-                                <div class="image " style="background-image:url('{{ asset('frontend/images/user.png') }}')"></div>
-                            @endif
-
-                            <div class="name">{{ Auth::user()->name }}</div>
-                        </div>
-                        <div class="side-login px-3 pb-3">
-                            <a href="{{ route('logout') }}">{{__('Sign Out')}}</a>
-                        </div>
-                    @else
-                        <div class="widget-profile-box px-3 py-4 d-flex align-items-center">
-                                <div class="image " style="background-image:url('{{ asset('frontend/images/icons/user-placeholder.jpg') }}')"></div>
-                        </div>
-                        <div class="side-login px-3 pb-3">
-                            <a href="{{ route('user.login') }}">{{__('Sign In')}}</a>
-                            <a href="{{ route('user.registration') }}">{{__('Registration')}}</a>
-                        </div>
-                    @endauth
                 </div>
-                <div class="side-menu-list px-3">
-                    <ul class="side-user-menu">
-                        <li>
-                            <a href="{{ route('home') }}">
-                                <i class="la la-home"></i>
-                                <span>{{__('Home')}}</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('dashboard') }}">
-                                <i class="la la-dashboard"></i>
-                                <span>{{__('Dashboard')}}</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('purchase_history.index') }}">
-                                <i class="la la-file-text"></i>
-                                <span>{{__('Purchase History')}}</span>
-                            </a>
-                        </li>
-                        @auth
-                            @php
-                                $conversation = \App\Conversation::where('sender_id', Auth::user()->id)->where('sender_viewed', '1')->get();
-                            @endphp
-                            @if (\App\BusinessSetting::where('type', 'conversation_system')->first()->value == 1)
-                                <li>
-                                    <a href="{{ route('conversations.index') }}" class="{{ areActiveRoutesHome(['conversations.index', 'conversations.show'])}}">
-                                        <i class="la la-comment"></i>
-                                        <span class="category-name">
-                                            {{__('Conversations')}}
-                                            @if (count($conversation) > 0)
-                                                <span class="ml-2" style="color:green"><strong>({{ count($conversation) }})</strong></span>
-                                            @endif
-                                        </span>
-                                    </a>
-                                </li>
-                            @endif
-                        @endauth
-                        <li>
-                            <a href="{{ route('compare') }}">
-                                <i class="la la-refresh"></i>
-                                <span>{{__('Compare')}}</span>
-                                @if(Session::has('compare'))
-                                    <span class="badge" id="compare_items_sidenav">{{ count(Session::get('compare'))}}</span>
-                                @else
-                                    <span class="badge" id="compare_items_sidenav">0</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('cart') }}">
-                                <i class="la la-shopping-cart"></i>
-                                <span>{{__('Cart')}}</span>
-                                @if(Session::has('cart'))
-                                    <span class="badge" id="cart_items_sidenav">{{ count(Session::get('cart'))}}</span>
-                                @else
-                                    <span class="badge" id="cart_items_sidenav">0</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('wishlists.index') }}">
-                                <i class="la la-heart-o"></i>
-                                <span>{{__('Wishlist')}}</span>
-                            </a>
-                        </li>
-
-                        @if(\App\BusinessSetting::where('type', 'classified_product')->first()->value == 1)
-                        <li>
-                            <a href="{{ route('customer_products.index') }}">
-                                <i class="la la-diamond"></i>
-                                <span>{{__('Classified Products')}}</span>
-                            </a>
-                        </li>
-                        @endif
-
-                        @if (\App\BusinessSetting::where('type', 'wallet_system')->first()->value == 1)
-                            <li>
-                                <a href="{{ route('wallet.index') }}">
-                                    <i class="la la-dollar"></i>
-                                    <span>{{__('My Wallet')}}</span>
-                                </a>
-                            </li>
-                        @endif
-
-                        <li>
-                            <a href="{{ route('profile') }}">
-                                <i class="la la-user"></i>
-                                <span>{{__('Manage Profile')}}</span>
-                            </a>
-                        </li>
-
-                        @php
-                        $refund_request_addon = \App\Addon::where('unique_identifier', 'refund_request')->first();
-                        $club_point_addon = \App\Addon::where('unique_identifier', 'club_point')->first();
-                        @endphp
-                        @if ($refund_request_addon != null && $refund_request_addon->activated == 1)
-                            <li>
-                                <a href="{{ route('customer_refund_request') }}" class="{{ areActiveRoutesHome(['customer_refund_request'])}}">
-                                    <i class="la la-file-text"></i>
-                                    <span class="category-name">
-                                        {{__('Sent Refund Request')}}
-                                    </span>
-                                </a>
-                            </li>
-                        @endif
-
-                        @if ($club_point_addon != null && $club_point_addon->activated == 1)
-                            <li>
-                                <a href="{{ route('earnng_point_for_user') }}" class="{{ areActiveRoutesHome(['earnng_point_for_user'])}}">
-                                    <i class="la la-dollar"></i>
-                                    <span class="category-name">
-                                        {{__('Earning Points')}}
-                                    </span>
-                                </a>
-                            </li>
-                        @endif
-
-                        <li>
-                            <a href="{{ route('support_ticket.index') }}" class="{{ areActiveRoutesHome(['support_ticket.index', 'support_ticket.show'])}}">
-                                <i class="la la-support"></i>
-                                <span class="category-name">
-                                    {{__('Support Ticket')}}
-                                </span>
-                            </a>
-                        </li>
-
-                    </ul>
-                    @if (Auth::check() && Auth::user()->user_type == 'seller')
-                        <div class="sidebar-widget-title py-0">
-                            <span>{{__('Shop Options')}}</span>
+                
+                <div class="ps-header--center header--mobile">
+                    <div class="container">
+                        <div class="header-inner">
+                            <div class="header-inner__left">
+                                <button class="navbar-toggler"><i class="icon-menu"></i></button>
+                            </div>
+                            <div class="header-inner__center"><a class="logo open" href="index.html">Naulo<span class="text-black"> Bazar</span></a></div>
+                            <div class="header-inner__right">
+                                <button class="button-icon icon-sm search-mobile"><i class="icon-magnifier"></i></button>
+                            </div>
                         </div>
-                        <ul class="side-seller-menu">
-                            <li>
-                                <a href="{{ route('seller.products') }}">
-                                    <i class="la la-diamond"></i>
-                                    <span>{{__('Products')}}</span>
-                                </a>
-                            </li>
-
-                            @if (\App\Addon::where('unique_identifier', 'pos_system')->first() != null && \App\Addon::where('unique_identifier', 'pos_system')->first()->activated)
-                                <li>
-                                    <a href="{{route('poin-of-sales.seller_index')}}">
-                                        <i class="la la-fax"></i>
-                                        <span>
-                                            {{__('POS Manager')}}
-                                        </span>
-                                    </a>
-                                </li>
-                            @endif
-
-                            <li>
-                                <a href="{{ route('orders.index') }}">
-                                    <i class="la la-file-text"></i>
-                                    <span>{{__('Orders')}}</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{ route('shops.index') }}">
-                                    <i class="la la-cog"></i>
-                                    <span>{{__('Shop Setting')}}</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{ route('withdraw_requests.index') }}">
-                                    <i class="la la-money"></i>
-                                    <span>
-                                        {{__('Money Withdraw')}}
-                                    </span>
-                                </a>
-                            </li>
-
-                            @php
-                                $conversation = \App\Conversation::where('receiver_id', Auth::user()->id)->where('receiver_viewed', '1')->get();
-                            @endphp
-                            @if (\App\BusinessSetting::where('type', 'conversation_system')->first()->value == 1)
-                                <li>
-                                    <a href="{{ route('conversations.index') }}" class="{{ areActiveRoutesHome(['conversations.index', 'conversations.show'])}}">
-                                        <i class="la la-comment"></i>
-                                        <span class="category-name">
-                                            {{__('Conversations')}}
-                                            @if (count($conversation) > 0)
-                                                <span class="ml-2" style="color:green"><strong>({{ count($conversation) }})</strong></span>
-                                            @endif
-                                        </span>
-                                    </a>
-                                </li>
-                            @endif
-
-                            <li>
-                                <a href="{{ route('payments.index') }}">
-                                    <i class="la la-cc-mastercard"></i>
-                                    <span>{{__('Payment History')}}</span>
-                                </a>
+                    </div>
+                </div>
+                <section class="ps-header--center header-desktop">
+                    <div class="container">
+                        <div class="header-inner">
+                            <div class="header-inner__left"><a class="logo" href="index.html">Naulo<b class="text-white"> Bazar</b></a>
+                                <button class="category-toggler"><i class="icon-menu"></i></button>
+                            </div>
+                            <div class="header-inner__center">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="header-search-select"><span class="current">All<i class="icon-chevron-down"></i></span>
+                                            <ul class="list">
+                                                <li class="category-option active" data-value="option"><a href="javascript:void(0);">All</a></li>
+                                                <li class="category-option"><a>Fresh</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
+                                                    <ul>
+                                                        <li> <a href="#">Meat & Poultry</a>
+                                                        </li>
+                                                        <li> <a href="#">Fruit</a>
+                                                        </li>
+                                                        <li> <a href="#">Vegetables</a>
+                                                        </li>
+                                                        <li> <a href="#">Milks, Butter & Eggs</a>
+                                                        </li>
+                                                        <li> <a href="#">Fish</a>
+                                                        </li>
+                                                        <li> <a href="#">Frozen</a>
+                                                        </li>
+                                                        <li> <a href="#">Cheese</a>
+                                                        </li>
+                                                        <li> <a href="#">Pasta & Sauce</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="category-option"><a>Food Cupboard</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
+                                                    <ul>
+                                                        <li> <a href="#">Crisps, Snacks & Nuts</a>
+                                                        </li>
+                                                        <li> <a href="#">Breakfast Cereals</a>
+                                                        </li>
+                                                        <li> <a href="#">Tins & Cans</a>
+                                                        </li>
+                                                        <li> <a href="#">Chocolate & Sweets</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="category-option" data-value="Bakery"><a href="javascript:void(0);">Bakery</a></li>
+                                                <li class="category-option" data-value="Drinks, Tea &amp; Coffee"><a href="javascript:void(0);">Drinks, Tea &amp; Coffee</a></li>
+                                                <li class="category-option" data-value="Frozen Foods"><a href="javascript:void(0);">Frozen Foods</a></li>
+                                                <li class="category-option"><a>Ready Meals</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
+                                                    <ul>
+                                                        <li> <a href="#">Traditional British</a>
+                                                        </li>
+                                                        <li> <a href="#">Indian</a>
+                                                        </li>
+                                                        <li> <a href="#">Italian</a>
+                                                        </li>
+                                                        <li> <a href="#">Chinese</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="category-option" data-value="Beer, Wine &amp; Spirits"><a href="javascript:void(0);">Beer, Wine &amp; Spirits</a></li>
+                                                <li class="category-option" data-value="Baby &amp; Child"><a href="javascript:void(0);">Baby &amp; Child</a></li>
+                                                <li class="category-option" data-value="Kitchen &amp; Dining"><a href="javascript:void(0);">Kitchen &amp; Dining</a></li>
+                                            </ul>
+                                        </div><i class="icon-magnifier search"></i>
+                                    </div>
+                                    <input class="form-control input-search" placeholder="I'm searchching for...">
+                                    <div class="input-group-append">
+                                        <button class="btn">Search</button>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="header-inner__right"><a class="button-icon icon-md" href="wishlist.html"><i class="icon-heart text-white"></i><span class="badge bg-warning">2</span></a>
+                                <div class="button-icon btn-cart-header"><i class="icon-cart icon-shop5 text-white"></i><span class="badge bg-warning">3</span>
+                                    <div class="mini-cart">
+                                        <div class="mini-cart--content">
+                                            <div class="mini-cart--overlay"></div>
+                                            <div class="mini-cart--slidebar cart--box">
+                                                <div class="mini-cart__header">
+                                                    <div class="cart-header-title">
+                                                        <h5>Shopping Cart(3)</h5><a class="close-cart" href="javascript:void(0);"><i class="icon-arrow-right"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="mini-cart__products">
+                                                    <div class="out-box-cart">
+                                                        <div class="triangle-box">
+                                                            <div class="triangle"></div>
+                                                        </div>
+                                                    </div>
+                                                    <ul class="list-cart">
+                                                        <li class="cart-item">
+                                                            <div class="ps-product--mini-cart"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_18a.jpg" alt="alt" /></a>
+                                                                <div class="ps-product__content"><a class="ps-product__name" href="product_details.html">Extreme Budweiser Light Can</a>
+                                                                    <p class="ps-product__unit">500g</p>
+                                                                    <p class="ps-product__meta"> <span class="ps-product__price">Rs34.90</span><span class="ps-product__quantity">(x1)</span>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="ps-product__remove"><i class="icon-trash2"></i></div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="cart-item">
+                                                            <div class="ps-product--mini-cart"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_31a.jpg" alt="alt" /></a>
+                                                                <div class="ps-product__content"><a class="ps-product__name" href="product_details.html">Honest Organic Still Lemonade</a>
+                                                                    <p class="ps-product__unit">100g</p>
+                                                                    <p class="ps-product__meta"> <span class="ps-product__price-sale">Rs5.99</span><span class="ps-product__is-sale">Rs8.99</span><span class="quantity">(x1)</span>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="ps-product__remove"><i class="icon-trash2"></i></div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="cart-item">
+                                                            <div class="ps-product--mini-cart"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_16a.jpg" alt="alt" /></a>
+                                                                <div class="ps-product__content"><a class="ps-product__name" href="product_details.html">Matures Own 100% Wheat</a>
+                                                                    <p class="ps-product__unit">1.5L</p>
+                                                                    <p class="ps-product__meta"> <span class="ps-product__price">Rs12.90</span><span class="ps-product__quantity">(x1)</span>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="ps-product__remove"><i class="icon-trash2"></i></div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mini-cart__footer row">
+                                                    <div class="col-6 title">TOTAL</div>
+                                                    <div class="col-6 text-right total">Rs29.98</div>
+                                                    <div class="col-12 d-flex"><a class="view-cart" href="shopping-cart.html">View cart</a><a class="checkout" href="checkout.html">Checkout</a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ps-top__total">Shopping Cart<b>Rs129.98</b></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <nav class="navigation">
+                    <div class="container">
+                        <ul class="menu menu-dark">
+                           <li class="menu-item-has-children has-mega-menu"><a class="nav-link" href="javascript:void(0);"> <i class="icon-text-align-left text-white mr-3"></i>Categories </a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
+                                <div class="mega-menu mega-menu-category">
+                                    <ul class="menu--mobile">
+                                        <li class="daily-deals category-item"> <a href="flash-sale.html">Daily Deals</a>
+                                        </li>
+                                        <li class="category-item"> <a href="shop-categories.html">Top Promotions</a>
+                                        </li>
+                                        <li class="category-item"> <a href="shop-categories.html">New Arrivals</a>
+                                        </li>
+                                        <li class="menu-item-has-children category-item"><a href="shop-categories.html">Fresh</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
+                                            <ul class="sub-menu">
+                                                <li> <a href="index.html">Meat & Poultry</a>
+                                                </li>
+                                                <li> <a href="index.html">Fruit</a>
+                                                </li>
+                                                <li> <a href="index.html">Vegetables</a>
+                                                </li>
+                                                <li> <a href="index.html">Milks, Butter & Eggs</a>
+                                                </li>
+                                                <li> <a href="index.html">Fish</a>
+                                                </li>
+                                                <li> <a href="index.html">Frozen</a>
+                                                </li>
+                                                <li> <a href="index.html">Cheese</a>
+                                                </li>
+                                                <li> <a href="index.html">Pasta & Sauce</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children category-item"><a href="shop-categories.html">Food Cupboard</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
+                                            <ul class="sub-menu">
+                                                <li> <a href="index.html">Crisps, Snacks & Nuts</a>
+                                                </li>
+                                                <li> <a href="index.html">Breakfast Cereals</a>
+                                                </li>
+                                                <li> <a href="index.html">Tins & Cans</a>
+                                                </li>
+                                                <li> <a href="index.html">Chocolate & Sweets</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="category-item"> <a href="shop-categories.html">Bakery</a>
+                                        </li>
+                                        <li class="category-item"> <a href="shop-categories.html">Frozen Foods</a>
+                                        </li>
+                                        <li class="menu-item-has-children category-item"><a href="shop-categories.html">Ready Meals</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
+                                            <ul class="sub-menu">
+                                                <li> <a href="index.html">Traditional British</a>
+                                                </li>
+                                                <li> <a href="index.html">Indian</a>
+                                                </li>
+                                                <li> <a href="index.html">Italian</a>
+                                                </li>
+                                                <li> <a href="index.html">Chinese</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children category-item"><a href="shop-categories.html">Drinks, Tea &amp; Coffee</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
+                                            <ul class="sub-menu">
+                                                <li> <a href="index.html">Tea & Coffee</a>
+                                                </li>
+                                                <li> <a href="index.html">Hot Drinks</a>
+                                                </li>
+                                                <li> <a href="index.html">Fizzy Drinks</a>
+                                                </li>
+                                                <li> <a href="index.html">Water</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="category-item"> <a href="shop-categories.html">Beer, Wine & Spirits</a>
+                                        </li>
+                                        <li class="category-item"> <a href="shop-categories.html">Baby & Child</a>
+                                        </li>
+                                        <li class="category-item"> <a href="shop-categories.html">Kitchen & Dining</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
                         </ul>
-                        <div class="sidebar-widget-title py-0">
-                            <span>{{__('Earnings')}}</span>
-                        </div>
-                        <div class="widget-balance py-3">
-                            <div class="text-center">
-                                <div class="heading-4 strong-700 mb-4">
-                                    @php
-                                        $orderDetails = \App\OrderDetail::where('seller_id', Auth::user()->id)->where('created_at', '>=', date('-30d'))->get();
-                                        $total = 0;
-                                        foreach ($orderDetails as $key => $orderDetail) {
-                                            if($orderDetail->order != null && $orderDetail->order != null && $orderDetail->order->payment_status == 'paid'){
-                                                $total += $orderDetail->price;
-                                            }
-                                        }
-                                    @endphp
-                                    <small class="d-block text-sm alpha-5 mb-2">{{__('Your earnings (current month)')}}</small>
-                                    <span class="p-2 bg-base-1 rounded">{{ single_price($total) }}</span>
+                        <ul class="menu">
+                            <li class="menu-item-has-children has-mega-menu active"><a class="nav-link active" href="index.html">NauloMall</a>
+                            </li>
+                            <li class="menu-item-has-children has-mega-menu"><a class="nav-link" href="javascript:void(0);">NauloMart</a>
+                            </li>
+                            <li class="menu-item-has-children has-mega-menu"><a class="nav-link" href="javascript:void(0);">Naulo Bazar</a>
+                            </li>
+                            <li class="menu-item-has-children has-mega-menu"> <a class="nav-link" href="flash-sale.html">Flash Sale</a>
+                            </li>
+                            <li class="menu-item-has-children has-mega-menu menu-item-branch"><a class="nav-link" href="javascript:void(0);">Our Top Venders</a>
+                                <span class="sub-toggle"><i class="icon-chevron-down"></i></span>
+                                <div class="mega-menu mega-brand">
+                                    <div class="mega-anchor"></div>
+                                    <div class="brand-box">
+                                        <div class="brand__title">FEATURED VENDERS</div>
+                                        <div class="row">
+                                            <div class="col-4"><a href="index.html"><img src="assets/img/brand/brand_themeforest.jpg" alt="alt" /></a></div>
+                                            <div class="col-4"><a href="index.html"><img src="assets/img/brand/brand_envato.jpg" alt="alt" /></a></div>
+                                            <div class="col-4"><a href="index.html"><img src="assets/img/brand/brand_codecanyon.jpg" alt="alt" /></a></div>
+                                            <div class="col-4"><a href="index.html"><img src="assets/img/brand/brand_cudicjungle.jpg" alt="alt" /></a></div>
+                                            <div class="col-4"><a href="index.html"><img src="assets/img/brand/brand_videohive.jpg" alt="alt" /></a></div>
+                                            <div class="col-4"><a href="index.html"><img src="assets/img/brand/brand_photodune.jpg" alt="alt" /></a></div>
+                                            <div class="col-4"><a href="index.html"><img src="assets/img/brand/brand_evatotuts.jpg" alt="alt" /></a></div>
+                                            <div class="col-4"><a href="index.html"><img src="assets/img/brand/brand_3docean.jpg" alt="alt" /></a></div>
+                                            <div class="col-4"><a href="index.html"><img src="assets/img/brand/microlancer.jpg" alt="alt" /></a></div>
+                                        </div><a class="brand__link" href="vendor-list.html">See all Venders<i class="icon-chevron-right"></i></a>
+                                    </div>
+                                    <div class="brand__promotion"><a href="flash-sale.html"><img src="assets/img/brand/brand_01.jpg" alt="alt" /></a></div>
+                                    <div class="brand__promotion"><a href="flash-sale.html"><img src="assets/img/brand/brand_02.jpg" alt="alt" /></a></div>
                                 </div>
-                                <table class="text-left mb-0 table w-75 m-auto">
-                                    <tbody>
-                                        <tr>
-                                            @php
-                                                $orderDetails = \App\OrderDetail::where('seller_id', Auth::user()->id)->get();
-                                                $total = 0;
-                                                foreach ($orderDetails as $key => $orderDetail) {
-                                                    if($orderDetail->order != null && $orderDetail->order->payment_status == 'paid'){
-                                                        $total += $orderDetail->price;
-                                                    }
-                                                }
-                                            @endphp
-                                            <td class="p-1 text-sm">
-                                                {{__('Total earnings')}}:
-                                            </td>
-                                            <td class="p-1">
-                                                {{ single_price($total) }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            @php
-                                                $orderDetails = \App\OrderDetail::where('seller_id', Auth::user()->id)->where('created_at', '>=', date('-60d'))->where('created_at', '<=', date('-30d'))->get();
-                                                $total = 0;
-                                                foreach ($orderDetails as $key => $orderDetail) {
-                                                    if($orderDetail->order != null && $orderDetail->order->payment_status == 'paid'){
-                                                        $total += $orderDetail->price;
-                                                    }
-                                                }
-                                            @endphp
-                                            <td class="p-1 text-sm">
-                                                {{__('Last Month earnings')}}:
-                                            </td>
-                                            <td class="p-1">
-                                                {{ single_price($total) }}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    @endif
-                    <!-- <div class="sidebar-widget-title py-0">
-                        <span>Categories</span>
-                    </div>
-                    <ul class="side-seller-menu">
-                        @foreach (\App\Category::all() as $key => $category)
-                            <li>
-                            <a href="{{ route('products.category', $category->slug) }}" class="text-truncate">
-                                <img class="cat-image lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->icon) }}" width="13" alt="{{ __($category->name) }}">
-                                <span>{{ __($category->name) }}</span>
-                            </a>
-                        </li>
-                        @endforeach
-                    </ul> -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end mobile menu -->
-
-    <div class="position-relative logo-bar-area">
-        <div class="">
-            <div class="container">
-                <div class="row no-gutters align-items-center">
-                    <div class="col-lg-3 col-8">
-                        <div class="d-flex">
-                            <div class="d-block d-lg-none mobile-menu-icon-box">
-                                <!-- Navbar toggler  -->
-                                <a href="" onclick="sideMenuOpen(this)">
-                                    <div class="hamburger-icon">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <!-- Brand/Logo -->
-                            <a class="navbar-brand w-100" href="{{ route('home') }}">
-                                @php
-                                    $generalsetting = \App\GeneralSetting::first();
-                                @endphp
-                                @if($generalsetting->logo != null)
-                                    <img src="{{ asset($generalsetting->logo) }}" alt="{{ env('APP_NAME') }}">
-                                @else
-                                    <img src="{{ asset('frontend/images/logo/logo.png') }}" alt="{{ env('APP_NAME') }}">
-                                @endif
-                            </a>
-
-                            @if(Route::currentRouteName() != 'home' && Route::currentRouteName() != 'categories.all')
-                                <div class="d-none d-xl-block category-menu-icon-box">
-                                    <div class="dropdown-toggle navbar-light category-menu-icon" id="category-menu-icon">
-                                        <span class="navbar-toggler-icon"></span>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-4 position-static">
-                        <div class="d-flex w-100">
-                            <div class="search-box flex-grow-1 px-4">
-                                <form action="{{ route('search') }}" method="GET">
-                                    <div class="d-flex position-relative">
-                                        <div class="d-lg-none search-box-back">
-                                            <button class="" type="button"><i class="la la-long-arrow-left"></i></button>
-                                        </div>
-                                        <div class="w-100">
-                                            <input type="text" aria-label="Search" id="search" name="q" class="w-100" placeholder="{{__('I am shopping for...')}}" autocomplete="off">
-                                        </div>
-                                        <div class="form-group category-select d-none d-xl-block">
-                                            <select class="form-control selectpicker" name="category">
-                                                <option value="">{{__('All Categories')}}</option>
-                                                @foreach (\App\Category::all() as $key => $category)
-                                                <option value="{{ $category->slug }}"
-                                                    @isset($category_id)
-                                                        @if ($category_id == $category->id)
-                                                            selected
-                                                        @endif
-                                                    @endisset
-                                                    >{{ __($category->name) }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <button class="d-none d-lg-block" type="submit">
-                                            <i class="la la-search la-flip-horizontal"></i>
-                                        </button>
-                                        <div class="typed-search-box d-none">
-                                            <div class="search-preloader">
-                                                <div class="loader"><div></div><div></div><div></div></div>
-                                            </div>
-                                            <div class="search-nothing d-none">
-
-                                            </div>
-                                            <div id="search-content">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-
-                            </div>
-
-                            <div class="logo-bar-icons d-inline-block ml-auto">
-                                <div class="d-inline-block d-lg-none">
-                                    <div class="nav-search-box">
-                                        <a href="#" class="nav-box-link">
-                                            <i class="la la-search la-flip-horizontal d-inline-block nav-box-icon"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="d-none d-lg-inline-block">
-                                    <div class="nav-compare-box" id="compare">
-                                        <a href="{{ route('compare') }}" class="nav-box-link">
-                                            <i class="la la-refresh d-inline-block nav-box-icon"></i>
-                                            <span class="nav-box-text d-none d-xl-inline-block">{{__('Compare')}}</span>
-                                            @if(Session::has('compare'))
-                                                <span class="nav-box-number">{{ count(Session::get('compare'))}}</span>
-                                            @else
-                                                <span class="nav-box-number">0</span>
-                                            @endif
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="d-none d-lg-inline-block">
-                                    <div class="nav-wishlist-box" id="wishlist">
-                                        <a href="{{ route('wishlists.index') }}" class="nav-box-link">
-                                            <i class="la la-heart-o d-inline-block nav-box-icon"></i>
-                                            <span class="nav-box-text d-none d-xl-inline-block">{{__('Wishlist')}}</span>
-                                            @if(Auth::check())
-                                                <span class="nav-box-number">{{ count(Auth::user()->wishlists)}}</span>
-                                            @else
-                                                <span class="nav-box-number">0</span>
-                                            @endif
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="d-inline-block" data-hover="dropdown">
-                                    <div class="nav-cart-box dropdown" id="cart_items">
-                                        <a href="" class="nav-box-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="la la-shopping-cart d-inline-block nav-box-icon"></i>
-                                            <span class="nav-box-text d-none d-xl-inline-block">{{__('Cart')}}</span>
-                                            @if(Session::has('cart'))
-                                                <span class="nav-box-number">{{ count(Session::get('cart'))}}</span>
-                                            @else
-                                                <span class="nav-box-number">0</span>
-                                            @endif
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right px-0">
-                                            <li>
-                                                <div class="dropdown-cart px-0">
-                                                    @if(Session::has('cart'))
-                                                        @if(count($cart = Session::get('cart')) > 0)
-                                                            <div class="dc-header">
-                                                                <h3 class="heading heading-6 strong-700">{{__('Cart Items')}}</h3>
-                                                            </div>
-                                                            <div class="dropdown-cart-items c-scrollbar">
-                                                                @php
-                                                                    $total = 0;
-                                                                @endphp
-                                                                @foreach($cart as $key => $cartItem)
-                                                                    @php
-                                                                        $product = \App\Product::find($cartItem['id']);
-                                                                        $total = $total + $cartItem['price']*$cartItem['quantity'];
-                                                                    @endphp
-                                                                    <div class="dc-item">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <div class="dc-image">
-                                                                                <a href="{{ route('product', $product->slug) }}">
-                                                                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->thumbnail_img) }}" class="img-fluid lazyload" alt="{{ __($product->name) }}">
-                                                                                </a>
-                                                                            </div>
-                                                                            <div class="dc-content">
-                                                                                <span class="d-block dc-product-name text-capitalize strong-600 mb-1">
-                                                                                    <a href="{{ route('product', $product->slug) }}">
-                                                                                        {{ __($product->name) }}
-                                                                                    </a>
-                                                                                </span>
-
-                                                                                <span class="dc-quantity">x{{ $cartItem['quantity'] }}</span>
-                                                                                <span class="dc-price">{{ single_price($cartItem['price']*$cartItem['quantity']) }}</span>
-                                                                            </div>
-                                                                            <div class="dc-actions">
-                                                                                <button onclick="removeFromCart({{ $key }})">
-                                                                                    <i class="la la-close"></i>
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                @endforeach
-                                                            </div>
-                                                            <div class="dc-item py-3">
-                                                                <span class="subtotal-text">{{__('Subtotal')}}</span>
-                                                                <span class="subtotal-amount">{{ single_price($total) }}</span>
-                                                            </div>
-                                                            <div class="py-2 text-center dc-btn">
-                                                                <ul class="inline-links inline-links--style-3">
-                                                                    <li class="px-1">
-                                                                        <a href="{{ route('cart') }}" class="link link--style-1 text-capitalize btn btn-base-1 px-3 py-1">
-                                                                            <i class="la la-shopping-cart"></i> {{__('View cart')}}
-                                                                        </a>
-                                                                    </li>
-                                                                    @if (Auth::check())
-                                                                    <li class="px-1">
-                                                                        <a href="{{ route('checkout.shipping_info') }}" class="link link--style-1 text-capitalize btn btn-base-1 px-3 py-1 light-text">
-                                                                            <i class="la la-mail-forward"></i> {{__('Checkout')}}
-                                                                        </a>
-                                                                    </li>
-                                                                    @endif
-                                                                </ul>
-                                                            </div>
-                                                        @else
-                                                            <div class="dc-header">
-                                                                <h3 class="heading heading-6 strong-700">{{__('Your Cart is empty')}}</h3>
-                                                            </div>
-                                                        @endif
-                                                    @else
-                                                        <div class="dc-header">
-                                                            <h3 class="heading heading-6 strong-700">{{__('Your Cart is empty')}}</h3>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="hover-category-menu" id="hover-category-menu">
-            <div class="container">
-                <div class="row no-gutters position-relative">
-                    <div class="col-lg-3 position-static">
-                        <div class="category-sidebar" id="category-sidebar">
-                            <div class="all-category">
-                                <span>{{__('CATEGORIES')}}</span>
-                                <a href="{{ route('categories.all') }}" class="d-inline-block">See All ></a>
-                            </div>
-                            <ul class="categories">
-                                @foreach (\App\Category::all()->take(11) as $key => $category)
-                                    @php
-                                        $brands = array();
-                                    @endphp
-                                    <li class="category-nav-element" data-id="{{ $category->id }}">
-                                        <a href="{{ route('products.category', $category->slug) }}">
-                                            <img class="cat-image lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->icon) }}" width="30" alt="{{ __($category->name) }}">
-                                            <span class="cat-name">{{ __($category->name) }}</span>
-                                        </a>
-                                        @if(count($category->subcategories)>0)
-                                            <div class="sub-cat-menu c-scrollbar">
-                                                <div class="c-preloader">
-                                                    <i class="fa fa-spin fa-spinner"></i>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </li>
-                                @endforeach
+                            </li>
+                        </ul>
+                        <div class="navigation-text">
+                            <ul class="menu">
+                                <li class="menu-item-has-children has-mega-menu"><a class="nav-link" href="become-a-vendor.html">Become A Vendor</a>   
+                                </li>
                             </ul>
                         </div>
                     </div>
-
+                </nav>
+                <div class="mobile-search--slidebar">
+                    <div class="mobile-search--content">
+                        <div class="mobile-search__header">
+                            <div class="mobile-search-box">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="I'm shopping for..." id="inputSearchMobile">
+                                    <div class="input-group-append">
+                                        <button class="btn"> <i class="icon-magnifier"></i></button>
+                                    </div>
+                                </div>
+                                <button class="cancel-search"><i class="icon-cross"></i></button>
+                            </div>
+                          </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!-- Navbar -->
-
-    <!-- <div class="main-nav-area d-none d-lg-block">
-        <nav class="navbar navbar-expand-lg navbar--bold navbar--style-2 navbar-light bg-default">
-            <div class="container">
-                <div class="collapse navbar-collapse align-items-center justify-content-center" id="navbar_main">
-                    <ul class="navbar-nav">
-                        @foreach (\App\Search::orderBy('count', 'desc')->get()->take(5) as $key => $search)
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('suggestion.search', $search->query) }}">{{ $search->query }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div> -->
-</div>
+            </header>

@@ -13,73 +13,67 @@
         asort($array);
     @endphp
     @if(!empty($array))
-        <section class="mb-5">
-        <div class="container">
-            <div class="px-2 py-4 p-md-4 bg-white shadow-sm">
-                <div class="section-title-1 clearfix">
-                    <h3 class="heading-5 strong-700 mb-0 float-left">
-                        <span class="mr-4">{{__('Best Sellers')}}</span>
-                    </h3>
-                    <ul class="inline-links float-right">
-                        <li><a  class="active">{{__('Top 20')}}</a></li>
-                    </ul>
-                </div>
-                <div class="caorusel-box arrow-round gutters-5">
-                    <div class="slick-carousel" data-slick-items="3" data-slick-lg-items="3"  data-slick-md-items="2" data-slick-sm-items="2" data-slick-xs-items="1" data-slick-rows="2">
-                        @php
-                            $count = 0;
-                        @endphp
-                        @foreach ($array as $key => $value)
-                            @if ($count < 20)
-                                @php
-                                    $count ++;
-                                    $seller = \App\Seller::find($key);
-                                    $total = 0;
-                                    $rating = 0;
-                                    foreach ($seller->user->products as $key => $seller_product) {
-                                        $total += $seller_product->reviews->count();
-                                        $rating += $seller_product->reviews->sum('rating');
-                                    }
-                                @endphp
-                                <div class="caorusel-card my-1">
-                                    <div class="row no-gutters box-3 align-items-center border">
-                                        <div class="col-4">
-                                            <a href="{{ route('shop.visit', $seller->user->shop->slug) }}" class="d-block product-image p-3">
-                                                <img
-                                                    src="{{ asset('frontend/images/placeholder.jpg') }}"
-                                                    data-src="@if ($seller->user->shop->logo !== null) {{ asset($seller->user->shop->logo) }} @else {{ asset('frontend/images/placeholder.jpg') }} @endif"
-                                                    alt="{{ $seller->user->shop->name }}"
-                                                    class="img-fluid lazyload"
-                                                >
-                                            </a>
-                                        </div>
-                                        <div class="col-8 border-left">
-                                            <div class="p-3">
-                                                <h2 class="product-title mb-0 p-0 text-truncate">
-                                                    <a href="{{ route('shop.visit', $seller->user->shop->slug) }}">{{ __($seller->user->shop->name) }}</a>
-                                                </h2>
-                                                <div class="star-rating star-rating-sm mb-2">
-                                                    @if ($total > 0)
-                                                        {{ renderStarRating($rating/$total) }}
-                                                    @else
-                                                        {{ renderStarRating(0) }}
-                                                    @endif
-                                                </div>
-                                                <div class="">
-                                                    <a href="{{ route('shop.visit', $seller->user->shop->slug) }}" class="icon-anim">
-                                                        {{ __('Visit Store') }} <i class="la la-angle-right text-sm"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-                </div>
+
+
+<section class="section--storeList">
+    <div class="container">
+        <div class="storeList__content pb-0">
+            <div class="component__header">
+                <h3 class="component__title">Our Top Venders</h3>
             </div>
+            <div class="owl-carousel" data-owl-auto="true" data-owl-loop="true" data-owl-speed="8000" data-owl-gap="10" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="2" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                @php
+                $count = 0;
+            @endphp
+            @foreach ($array as $key => $value)
+                @if ($count < 20)
+                    @php
+                        $count ++;
+                        $seller = \App\Seller::find($key);
+                        $total = 0;
+                        $rating = 0;
+                        foreach ($seller->user->products as $key => $seller_product) {
+                            $total += $seller_product->reviews->count();
+                            $rating += $seller_product->reviews->sum('rating');
+                        }
+                    @endphp
+                <div class="storeList__item">
+
+
+
+                    <div class="item__header"><img src="{{ asset($seller->user->shop->logo) }}" alt="alt" />
+                        <div class="item__content">
+                            <h5 class="item__title">{{ $seller->user->shop->name }} </h5>
+                            <div class="item__rating">
+                                <select class="rating-stars">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3" selected="selected">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="item__street">{{ $seller->user->shop->address }}</div>
+                            {{-- <div class="item__address">44600, Kathmandu, Nepal</div> --}}
+                            <div class="item__phone"> <i class="fa fa-phone"></i>{{ $seller->user->phone }}</div>
+                        </div>
+                    </div>
+                    <div class="item__footer"><a class="item__store" href="{{ route('shop.visit', $seller->user->shop->slug) }}">Visit Store</a>
+                        <div class="item__avatar">
+                            <div class="avatar"><img src="@if ($seller->user->avatar !== null) {{ asset($seller->user->avatar) }} @else {{ asset('frontend/images/placeholder.jpg') }} @endif" alt="user image" /></div>
+                        </div>
+                    </div>
+
+
+                </div>
+                @endif
+                @endforeach
+
+            </div>
+
         </div>
-    </section>
-    @endif
+
+    </div>
+</section>
+@endif
 @endif
