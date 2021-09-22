@@ -15,6 +15,24 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-3" for="title">{{__('Title')}}</label>
+                <div class="col-sm-9">
+                    <input type="text" id="title" name="title" placeholder="Banner Title" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3" for="body">{{__('Body')}}</label>
+                <div class="col-sm-9">
+                    <input type="text" id="body" name="body" placeholder="Body" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3" for="footer">{{__('footer')}}</label>
+                <div class="col-sm-9">
+                    <input type="text" id="footer" name="footer" placeholder="Footer text" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
                 <div class="col-sm-3">
                     <label class="control-label">{{__('Slider Images')}}</label>
                     <strong>(850px*315px)</strong>

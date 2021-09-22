@@ -1,39 +1,56 @@
+@php
+   if(Session::has('locale')){
+       $locale = Session::get('locale', Config::get('app.locale'));
+   }
+   else{
+       $locale = 'en';
+   }
+   $total = 0
+@endphp
+@php
+$generalsetting = \App\GeneralSetting::first();
+@endphp
   <header class="header ps-header--dark">
                 <div class="ps-top-bar">
                     <div class="container">
                         <div class="top-bar">
                             <div class="top-bar__left">
                                 <ul class="nav-top-dark">
-                                    <li class="nav-top-item"> <a href="javascript:void(0);"><i class='icon-map-marker'></i>Gokarna, 44600 Kathmandu, Nepal.</a>
+                                    <li class="nav-top-item"> <a href="javascript:void(0);"><i class='icon-map-marker'></i> {{ $generalsetting->address }}</a>
                                     </li>
-                                    <li class="nav-top-item"> <a href="javascript:void(0);"><i class='icon-telephone'></i> +977-9810099062</a>
+                                    <li class="nav-top-item"> <a href="javascript:void(0);"><i class='icon-telephone'></i>  {{ $generalsetting->phone }}</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="top-bar__right">
                                 <ul class="nav-top">
                                     <li class="nav-top-item"><a class="nav-top-link" href="vendor-registration.html">Sell on NauloBazar</a></li>
-                                    <li class="nav-top-item"><a class="nav-top-link" href="order-tracking.html">Order Tracking</a></li>
+                                    <li class="nav-top-item"><a class="nav-top-link" href="{{ route('orders.track') }}">Order Tracking</a></li>
                                     <li class="nav-top-item languages"><a class="nav-top-link" href="javascript:void(0);"> <span class="current-languages">English</span><i class="icon-chevron-down"></i></a>
                                         <div class="select--dropdown">
+
+
                                             <ul class="select-languages">
-                                                <li class="active language-item" data-value="English"><a href="javascript:void(0);">English</a></li>
-                                                <li class="language-item" data-value="Nepali"><a href="javascript:void(0);">Nepali</a></li>
-                                                <li class="language-item" data-value="Hindi"><a href="javascript:void(0);">Hindi</a></li>
+                                                @foreach (\App\Language::all() as $key => $language)
+                                                <li class="active language-item" @if($locale == $language) active @endif" data-value="{{ $language->code }}"><a href="javascript:void(0);">{{ $language->name }}</a></li>
+
+                                                @endforeach
                                             </ul>
                                         </div>
                                     </li>
-                                    
-                                    <li class="nav-top-item account"><a class="nav-top-link" href="javascript:void(0);"> <i class="icon-user"></i>Hi! <span class="font-bold">Bikash Bhandari</span></a>
+                                    @auth
+                                    <li class="nav-top-item account"><a class="nav-top-link" href="javascript:void(0);"> <i class="icon-user"></i>Hi! <span class="font-bold">{{Auth::user()->name}}</span></a>
                                         <div class="account--dropdown">
                                             <div class="account-anchor">
                                                 <div class="triangle"></div>
                                             </div>
                                             <div class="account__content">
+
                                                 <ul class="account-list">
+
                                                     <li class="title-item">My Account
                                                     </li>
-                                                    <li> <a href="dashboard.html">
+                                                    <li> <a href="{{ route('dashboard') }}">
                                                     <i class="icon-menu-circle">&nbsp;</i> Dasdboard</a>
                                                     </li>
                                                     <li> <a href="my_profile.html">
@@ -50,7 +67,7 @@
                                                     </li>
                                                     <li> <a href="my_cancel.html"> <i class="icon-stream-error">&nbsp;</i> My Cancellations</a>
                                                     </li>
-                                                    <li> <a href="wishlist.html">
+                                                    <li> <a href="{{ route('wishlists.index') }}">
                                                     <i class="icon-heart">&nbsp;</i> My Wishlist</a>
                                                     </li>
                                                     <li> <a href="my_reviews.html">
@@ -60,16 +77,33 @@
                                                     <i class="icon-eye">&nbsp;</i> Change Password</a>
                                                     </li>
                                                 </ul>
-                                                <a class="account-logout" href="index.html"><i class="icon-exit-left"></i>Log Out</a>
+                                                <a class="account-logout" href="{{ route('logout') }}"><i class="icon-exit-left"></i>Log Out</a>
                                             </div>
                                         </div>
                                     </li>
+                                    @else
+                                    <li class="nav-top-item account"><a class="nav-top-link" href="{{ route('user.login') }}"> <i class="icon-user"></i>Login</a>
+
+                                    </li>
+                                    <li class="nav-top-item account"><a class="nav-top-link" href="{{ route('user.registration') }}"> <i class="icon-user"></i>Rehister</a>
+
+                                    </li>
+                                    @endauth
+
+
+
+
+
+
+
+
+
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="ps-header--center header--mobile">
                     <div class="container">
                         <div class="header-inner">
@@ -90,82 +124,57 @@
                                 <button class="category-toggler"><i class="icon-menu"></i></button>
                             </div>
                             <div class="header-inner__center">
+                                <form action="{{ route('search') }}" method="GET">
                                 <div class="input-group">
-                                    <div class="input-group-prepend">
+                                    {{-- <div class="input-group-prepend">
                                         <div class="header-search-select"><span class="current">All<i class="icon-chevron-down"></i></span>
                                             <ul class="list">
                                                 <li class="category-option active" data-value="option"><a href="javascript:void(0);">All</a></li>
+                                                @foreach (\App\Category::all() as $key => $category)
                                                 <li class="category-option"><a>Fresh</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
                                                     <ul>
                                                         <li> <a href="#">Meat & Poultry</a>
                                                         </li>
-                                                        <li> <a href="#">Fruit</a>
-                                                        </li>
-                                                        <li> <a href="#">Vegetables</a>
-                                                        </li>
-                                                        <li> <a href="#">Milks, Butter & Eggs</a>
-                                                        </li>
-                                                        <li> <a href="#">Fish</a>
-                                                        </li>
-                                                        <li> <a href="#">Frozen</a>
-                                                        </li>
-                                                        <li> <a href="#">Cheese</a>
-                                                        </li>
-                                                        <li> <a href="#">Pasta & Sauce</a>
-                                                        </li>
+
                                                     </ul>
                                                 </li>
-                                                <li class="category-option"><a>Food Cupboard</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
-                                                    <ul>
-                                                        <li> <a href="#">Crisps, Snacks & Nuts</a>
-                                                        </li>
-                                                        <li> <a href="#">Breakfast Cereals</a>
-                                                        </li>
-                                                        <li> <a href="#">Tins & Cans</a>
-                                                        </li>
-                                                        <li> <a href="#">Chocolate & Sweets</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="category-option" data-value="Bakery"><a href="javascript:void(0);">Bakery</a></li>
-                                                <li class="category-option" data-value="Drinks, Tea &amp; Coffee"><a href="javascript:void(0);">Drinks, Tea &amp; Coffee</a></li>
-                                                <li class="category-option" data-value="Frozen Foods"><a href="javascript:void(0);">Frozen Foods</a></li>
-                                                <li class="category-option"><a>Ready Meals</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
-                                                    <ul>
-                                                        <li> <a href="#">Traditional British</a>
-                                                        </li>
-                                                        <li> <a href="#">Indian</a>
-                                                        </li>
-                                                        <li> <a href="#">Italian</a>
-                                                        </li>
-                                                        <li> <a href="#">Chinese</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="category-option" data-value="Beer, Wine &amp; Spirits"><a href="javascript:void(0);">Beer, Wine &amp; Spirits</a></li>
-                                                <li class="category-option" data-value="Baby &amp; Child"><a href="javascript:void(0);">Baby &amp; Child</a></li>
-                                                <li class="category-option" data-value="Kitchen &amp; Dining"><a href="javascript:void(0);">Kitchen &amp; Dining</a></li>
+                                                @endforeach
                                             </ul>
                                         </div><i class="icon-magnifier search"></i>
-                                    </div>
-                                    <input class="form-control input-search" placeholder="I'm searchching for...">
+                                    </div> --}}
+                                    <input class="form-control input-search" id="search" name="q" placeholder="I'm searchching for...">
                                     <div class="input-group-append">
-                                        <button class="btn">Search</button>
+                                        <button class="btn" type="submit">Search</button>
                                     </div>
                                 </div>
-                               
+                            </form>
                             </div>
-                            <div class="header-inner__right"><a class="button-icon icon-md" href="wishlist.html"><i class="icon-heart text-white"></i><span class="badge bg-warning">2</span></a>
-                                <div class="button-icon btn-cart-header"><i class="icon-cart icon-shop5 text-white"></i><span class="badge bg-warning">3</span>
+                            <div class="header-inner__right">
+                                <a class="button-icon icon-md" href="{{ route('wishlists.index') }}">
+                                    <i class="icon-heart text-white"></i>
+                                    <span class="badge bg-warning">2</span>
+                                </a>
+
+
+                                <div class="button-icon btn-cart-header">
+                                    <i class="icon-cart icon-shop5 text-white">
+                                        @if(Session::has('cart'))
+                                        </i><span class="badge bg-warning">{{ count(Session::get('cart'))}}</span>
+                                        @else
+                                    </i><span class="badge bg-warning">0</span>
+                                    @endif
                                     <div class="mini-cart">
                                         <div class="mini-cart--content">
                                             <div class="mini-cart--overlay"></div>
                                             <div class="mini-cart--slidebar cart--box">
                                                 <div class="mini-cart__header">
                                                     <div class="cart-header-title">
-                                                        <h5>Shopping Cart(3)</h5><a class="close-cart" href="javascript:void(0);"><i class="icon-arrow-right"></i></a>
+
+                                                        <h5>Shopping Cart(3)</h5><a class="close-cart" href="{{ route('cart') }}"><i class="icon-arrow-right"></i></a>
                                                     </div>
                                                 </div>
+                                                @if(Session::has('cart'))
+                                                @if(count($cart = Session::get('cart')) > 0)
                                                 <div class="mini-cart__products">
                                                     <div class="out-box-cart">
                                                         <div class="triangle-box">
@@ -173,48 +182,48 @@
                                                         </div>
                                                     </div>
                                                     <ul class="list-cart">
+                                                        @php
+                                                        $total = 0;
+                                                    @endphp
+                                                    @foreach($cart as $key => $cartItem)
+                                                        @php
+                                                            $product = \App\Product::find($cartItem['id']);
+                                                            $total = $total + $cartItem['price']*$cartItem['quantity'];
+                                                        @endphp
+
                                                         <li class="cart-item">
-                                                            <div class="ps-product--mini-cart"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_18a.jpg" alt="alt" /></a>
-                                                                <div class="ps-product__content"><a class="ps-product__name" href="product_details.html">Extreme Budweiser Light Can</a>
-                                                                    <p class="ps-product__unit">500g</p>
-                                                                    <p class="ps-product__meta"> <span class="ps-product__price">Rs34.90</span><span class="ps-product__quantity">(x1)</span>
+                                                            <div class="ps-product--mini-cart"><a href="{ route('product', $product->slug) }}"><img class="ps-product__thumbnail"  src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->thumbnail_img) }}" class="img-fluid lazyload" alt="{{ __($product->name) }}" /></a>
+                                                                <div class="ps-product__content"><a class="ps-product__name" href="{{ route('product', $product->slug) }}">{{ __($product->name) }}</a>
+                                                                    <p class="ps-product__unit">{{ $cartItem['quantity'] }}</p>
+                                                                    <p class="ps-product__meta"> <span class="ps-product__price">Rs{{ single_price($cartItem['price']*$cartItem['quantity']) }}</span><span class="ps-product__quantity">(x{{ $cartItem['quantity'] }})</span>
                                                                     </p>
                                                                 </div>
-                                                                <div class="ps-product__remove"><i class="icon-trash2"></i></div>
+                                                                <button onclick="removeFromCart({{ $key }})"><div class="ps-product__remove"><i class="icon-trash2"></i></div>  </button>
                                                             </div>
                                                         </li>
-                                                        <li class="cart-item">
-                                                            <div class="ps-product--mini-cart"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_31a.jpg" alt="alt" /></a>
-                                                                <div class="ps-product__content"><a class="ps-product__name" href="product_details.html">Honest Organic Still Lemonade</a>
-                                                                    <p class="ps-product__unit">100g</p>
-                                                                    <p class="ps-product__meta"> <span class="ps-product__price-sale">Rs5.99</span><span class="ps-product__is-sale">Rs8.99</span><span class="quantity">(x1)</span>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="ps-product__remove"><i class="icon-trash2"></i></div>
-                                                            </div>
-                                                        </li>
-                                                        <li class="cart-item">
-                                                            <div class="ps-product--mini-cart"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_16a.jpg" alt="alt" /></a>
-                                                                <div class="ps-product__content"><a class="ps-product__name" href="product_details.html">Matures Own 100% Wheat</a>
-                                                                    <p class="ps-product__unit">1.5L</p>
-                                                                    <p class="ps-product__meta"> <span class="ps-product__price">Rs12.90</span><span class="ps-product__quantity">(x1)</span>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="ps-product__remove"><i class="icon-trash2"></i></div>
-                                                            </div>
-                                                        </li>
+                                                        @endforeach
                                                     </ul>
+
                                                 </div>
                                                 <div class="mini-cart__footer row">
                                                     <div class="col-6 title">TOTAL</div>
-                                                    <div class="col-6 text-right total">Rs29.98</div>
-                                                    <div class="col-12 d-flex"><a class="view-cart" href="shopping-cart.html">View cart</a><a class="checkout" href="checkout.html">Checkout</a></div>
+                                                    <div class="col-6 text-right total">Rs{{ single_price($total) }}</div>
+                                                    <div class="col-12 d-flex"><a class="view-cart" href="{{ route('cart') }}">View cart</a>
+                                                        @if (Auth::check())
+                                                        <a class="checkout" href="{{ route('checkout.shipping_info') }}">Checkout</a></div>
+                                                        @endif
                                                 </div>
+                                                @else
+                                                <div class="col-6 title">Your Cart Is empty</div>
+                                                @endif
+                                                  @else
+                                                <div class="col-6 title">Your Cart Is empty</div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="ps-top__total">Shopping Cart<b>Rs129.98</b></div>
+                                <div class="ps-top__total">Shopping Cart<b>{{$total}} </b></div>
                             </div>
                         </div>
                     </div>
@@ -231,26 +240,20 @@
                                         </li>
                                         <li class="category-item"> <a href="shop-categories.html">New Arrivals</a>
                                         </li>
-                                        <li class="menu-item-has-children category-item"><a href="shop-categories.html">Fresh</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
+                                        @foreach (\App\Category::all()->take(11) as $key => $category)
+                                        @php
+                                            $brands = array();
+                                        @endphp
+                                        <li class="menu-item-has-children category-item"><a href="{{ route('products.category', $category->slug) }}">{{ __($category->name) }}</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
+
                                             <ul class="sub-menu">
-                                                <li> <a href="index.html">Meat & Poultry</a>
+                                                @if(count($category->subcategories)>0)
+                                                <li> <a href="">Meat & Poultry</a>
                                                 </li>
-                                                <li> <a href="index.html">Fruit</a>
-                                                </li>
-                                                <li> <a href="index.html">Vegetables</a>
-                                                </li>
-                                                <li> <a href="index.html">Milks, Butter & Eggs</a>
-                                                </li>
-                                                <li> <a href="index.html">Fish</a>
-                                                </li>
-                                                <li> <a href="index.html">Frozen</a>
-                                                </li>
-                                                <li> <a href="index.html">Cheese</a>
-                                                </li>
-                                                <li> <a href="index.html">Pasta & Sauce</a>
-                                                </li>
+                                                @endif
                                             </ul>
                                         </li>
+                                        @endforeach
                                         <li class="menu-item-has-children category-item"><a href="shop-categories.html">Food Cupboard</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
                                             <ul class="sub-menu">
                                                 <li> <a href="index.html">Crisps, Snacks & Nuts</a>
@@ -335,7 +338,7 @@
                         </ul>
                         <div class="navigation-text">
                             <ul class="menu">
-                                <li class="menu-item-has-children has-mega-menu"><a class="nav-link" href="become-a-vendor.html">Become A Vendor</a>   
+                                <li class="menu-item-has-children has-mega-menu"><a class="nav-link" href="become-a-vendor.html">Become A Vendor</a>
                                 </li>
                             </ul>
                         </div>

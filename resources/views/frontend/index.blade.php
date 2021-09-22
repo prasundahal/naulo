@@ -394,7 +394,11 @@
 @foreach($allproducts as $product)
 <div class="col-6 col-md-4 col-lg-3 col-xl-2 p-0">
     <div class="ps-sell__product">
-        <div class="ps-product--standard"><a href="{{ route('product', $product->slug) }}"><img class="ps-product__thumbnail" src="{{ $product->thumbnail_img }}" alt="alt" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a><span class="ps-badge ps-product__new">New </span>
+        <div class="ps-product--standard"><a href="{{ route('product', $product->slug) }}"><img class="ps-product__thumbnail" src="{{ $product->thumbnail_img }}" alt="alt" /></a>
+            <a class="ps-product__expand" href="javascript:void(0);"onclick="addToWishList({{ $product->id }})">
+                <i class="icon-heart"></i></a><span class="ps-badge ps-product__new">New </span>
+            @csrf
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
             <div class="ps-product__content">
                 <p class="ps-product__type"><i class="icon-store"></i>shop - {{ $product->user->name }}</p>
                 <h5><a class="ps-product__name" href="product_details.html">{{ $product->name }}</a></h5>
@@ -419,7 +423,11 @@
                 </div>
                 <div class="ps-product__total">Total: <span>Rs14.99</span>
                 </div>
-                <button class="ps-product__addcart" onclick="showAddToCartModal({{ $product->id }})"><i class="icon-cart"></i>Add to cart</button>
+
+                <button type="button" class="btn btn-styled btn-alt-base-1 c-white btn-icon-left strong-700 hov-bounce hov-shaddow ml-2 add-to-cart" onclick="addToCart()">
+                    <i class="la la-shopping-cart"></i>
+                    <span class="d-none d-md-inline-block">Add To Cart</span>
+                </button>
 
             </div>
         </div>
@@ -720,6 +728,8 @@
                 $('#section_best_sellers').html(data);
                 slickInit();
             });
+            //addToCart
+
         });
     </script>
 @endsection

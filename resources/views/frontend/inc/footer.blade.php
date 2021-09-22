@@ -1,3 +1,6 @@
+@php
+$generalsetting = \App\GeneralSetting::first();
+@endphp
 <footer class="ps-footer">
                 <div class="container">
                     <div class="ps-footer--contact">
@@ -5,9 +8,9 @@
                             <div class="col-12 col-lg-4">
                                 <p class="contact__title">Contact Us</p>
                                 <p><b><i class="icon-telephone"> </i>Hotline: </b><span>(7:00 - 21:30)</span></p>
-                                <p class="telephone">+977-9810099062<br>+977-9849622959</p>
-                                <p> <b>Head office: </b>44600 Ring Road. Chabahil,KTM Nepal.</p>
-                                <p> <b>Email us: </b><a href="index.html" class="">NauloBazar.com.np@gmail.com</a></p>
+                                <p class="telephone">+977-9810099062<br>{{ $generalsetting->phone }}</p>
+                                <p> <b>Head office: </b>{{ $generalsetting->address }}</p>
+                                <p> <b>Email us: </b><a href="index.html" class="">{{ $generalsetting->email  }}</a></p>
                             </div>
                             <div class="col-12 col-lg-4">
                                 <div class="row">
@@ -20,9 +23,9 @@
                                             </li>
                                             <li> <a href="#">Store Locations</a>
                                             </li>
-                                            <li> <a href="#">Terms of Use</a>
+                                            <li> <a href="{{ route('terms') }}">Terms of Use</a>
                                             </li>
-                                            <li> <a href="#">Privacy Policy</a>
+                                            <li> <a href="{{ route('privacypolicy') }}">Privacy Policy</a>
                                             </li>
                                             <li> <a href="#">FAQs / Help</a>
                                             </li>
@@ -32,18 +35,22 @@
                                     <div class="col-12 col-lg-6">
                                         <p class="contact__title">Corporate<span class="footer-toggle"><i class="icon-chevron-down"></i></span></p>
                                         <ul class="footer-list">
-                                            <li> <a href="#">Become a Vendor</a>
+                                            @if (\App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
+                                            <li> <a href="{{ route('shops.create') }}">Become a Vendor</a>
                                             </li>
-                                            <li> <a href="#">Affiliate Program</a>
+                                            @endif
+                                            @foreach (\App\Link::all() as $key => $link)
+                                            <li> <a href="{{ $link->url }}">{{ $link->name }}</a>
                                             </li>
-                                            <li> <a href="#">Store Business</a>
+                                            @endforeach
+                                            {{-- <li> <a href="#">Store Business</a>
                                             </li>
                                             <li> <a href="#">Careers</a>
                                             </li>
                                             <li> <a href="#">Our Suppliers</a>
                                             </li>
                                             <li> <a href="#">Accessibility</a>
-                                            </li>
+                                            </li> --}}
                                         </ul>
                                         <hr>
                                     </div>
@@ -51,14 +58,16 @@
                             </div>
                             <div class="col-12 col-lg-4">
                                 <p class="contact__title">Newsletter Subscription</p>
-                                <p>Join our email subscription now to get updates on <b>promotions </b>and <b>coupons.</b></p>
+                                <p>{{ $generalsetting->description }}</b></p>
+                                <form method="POST" action="{{ route('subscribers.store') }}">
                                 <div class="input-group">
                                     <div class="input-group-prepend"><i class="icon-envelope"></i></div>
-                                    <input class="form-control" type="text" placeholder="Enter your email...">
+                                    <input class="form-control" type="email" name="email" placeholder="Enter your email..." required>
                                     <div class="input-group-append">
-                                        <button class="btn">Subscribe</button>
+                                        <button type="submit" class="btn">Subscribe</button>
                                     </div>
                                 </div>
+                            </form>
                             </div>
                         </div>
                     </div>
@@ -220,11 +229,25 @@
                     </div>
                     <div class="row ps-footer__copyright">
                         <div class="col-12 col-lg-6 ps-footer__text">&copy; 2021 Naulo Bazar Marhetplace. All Rights Reversed.</div>
-                        <div class="col-12 col-lg-6 ps-footer__social"> <a class="icon_social facebook" href="#"><i class="fa fa-facebook-f"></i></a><a class="icon_social twitter" href="#"><i class="fa fa-twitter"></i></a><a class="icon_social google" href="#"><i class="fa fa-instagram"></i></a><a class="icon_social youtube" href="#"><i class="fa fa-youtube"></i></a><a class="icon_social wifi" href="#"><i class="fa fa-wifi"></i></a></div>
+                        <div class="col-12 col-lg-6 ps-footer__social">
+
+                            @if ($generalsetting->facebook != null)
+                            <a class="icon_social facebook" href="{{ $generalsetting->facebook }}"><i class="fa fa-facebook-f"></i></a>
+                            @endif
+                            @if ($generalsetting->twitter != null)
+                            <a class="icon_social twitter" href="{{ $generalsetting->twitter }}"><i class="fa fa-twitter"></i></a>
+                            @endif
+                            @if ($generalsetting->instagram != null)
+                            <a class="icon_social google" href="{{ $generalsetting->instagram }}"><i class="fa fa-instagram"></i></a>
+                            @endif
+                            @if ($generalsetting->youtube != null)
+                            <a class="icon_social youtube" href="{{ $generalsetting->youtube }}"><i class="fa fa-youtube"></i></a>
+                            @endif
+                            {{-- <a class="icon_social wifi" href="#"><i class="fa fa-wifi"></i></a></div> --}}
                     </div>
                 </div>
             </footer>
-            <div class="ps-footer-mobile">
+            {{-- <div class="ps-footer-mobile">
                 <div class="menu__content">
                     <ul class="menu--footer">
                         <li class="nav-item"><a class="nav-link" href="index.html"><i class="icon-home3"></i><span>Home</span></a></li>
@@ -378,4 +401,4 @@
                         <li class="footer-item"><a class="footer-link" href="#"><i class="icon-telephone"></i><span>HOTLINE: <span class='text-success'>(+977) 9810099062 </span> (Free)</span></a></li>
                     </ul>
                 </div>
-            </nav>
+            </nav> --}}
