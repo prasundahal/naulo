@@ -43,283 +43,37 @@
                     </div>
                 </section>
 
-                @include('frontend.partials.flashsell')
-
-              {{-- best seller top vendors --}}
-@include('frontend.partials.best_sellers_section')
-                <section class="ps-component ps-component--selling">
+               
+                {{-- Flash Sell --}}
+                @php
+                $flash_deal = \App\FlashDeal::where('status', 1)->where('featured', 1)->where('end_date','>',strtotime(now()))->where('start_date','>',strtotime(now()))->first();
+                $enddate=$flash_deal->end_date;
+                $data_of_time=date("Y-m-d H:i:s", $enddate);
+            @endphp
+            @if($flash_deal)
+                <section class="ps-component ps-component--flash">
                     <div class="container">
                         <div class="component__header">
-                            <h3 class="component__title">Top Best Selling Items</h3>
-                            <a class="component__view" href="shop-categories.html">View All <i class="icon-chevron-right"></i></a>
+                            <h3 class="component__title">Today Flash Sale<span class="ps-countdown"><span class="ps-countdown-end">Ends in : </span><span class="ps-countdown"><b id="demo"></b></span><span class="ps-countdown mobile"><b id="demo"></b></span></span></h3>
+                            <a class="component__view" href="">View All <i class="icon-chevron-right"></i></a>
                         </div>
+                        @foreach ($flash_deal->flash_deal_products as $key => $flash_deal_product)
+                                @php
+                                    $product = \App\Product::find($flash_deal_product->product_id);
+                                   
+                                @endphp
+                                @if ($product != null && $product->published != 0)
                         <div class="component__content">
-                            <div class="owl-carousel" data-owl-auto="true" data-owl-loop="true" data-owl-speed="12000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="5" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="5" data-owl-duration="1000" data-owl-mousedrag="on">
-                                <div class="ps-sell__product">
-                                    <div class="ps-product--standard"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_16a.jpg" alt="alt" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a><span class="ps-badge ps-product__offbadge">35% Off </span>
+                            
+                            <div class="owl-carousel" data-owl-auto="true" data-owl-loop="true" data-owl-speed="8000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="5" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="5" data-owl-duration="1000" data-owl-mousedrag="on">
+                                
+                                <div class="ps-flash__product">
+                                    <div class="ps-product--standard"><a href="product_details.html"><img class="ps-product__thumbnail" src="{{$product->flash_deal_img}}" alt="alt" />
+                                    </a>
+                                    <a class="ps-product__expand" href="javascript:void(0);" data-toggle="modal" data-target="#popupQuickview"><i class="icon-expand"></i></a>
                                         <div class="ps-product__content">
-                                            <p class="ps-product__type"><i class="icon-store"></i>Karery Store</p>
-                                            <h5><a class="ps-product__name" href="product_details.html">Broccoli Crowns</a></h5>
-                                            <p class="ps-product__unit">300g</p>
-                                            <div class="ps-product__rating">
-                                                <select class="rating-stars">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5" selected="selected">5</option>
-                                                </select><span>(4)</span>
-                                            </div>
-                                            <p class="ps-product-price-block"><span class="ps-product__sale">Rs3.90</span><span class="ps-product__price">Rs9.99</span>
-                                            </p>
-                                        </div>
-                                        <div class="ps-product__footer">
-                                            <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                                <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
-                                            </div>
-                                            <div class="ps-product__total">Total: <span>Rs3.90</span>
-                                            </div>
-                                            <button class="ps-product__addcart" ><i class="icon-cart"></i>Add to cart</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ps-sell__product">
-                                    <div class="ps-product--standard"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_22a.jpg" alt="alt" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a><span class="ps-badge ps-product__new">New </span>
-                                        <div class="ps-product__content">
-                                            <p class="ps-product__type"><i class="icon-store"></i>Shannan Yu</p>
-                                            <h5><a class="ps-product__name" href="product_details.html">Bar S -Classic Bun Length Franks</a></h5>
-                                            <p class="ps-product__unit">454g</p>
-                                            <div class="ps-product__rating">
-                                                <select class="rating-stars">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                </select><span>(0)</span>
-                                            </div>
-                                            <p class="ps-product-price-block"><span class="ps-product__price-default">Rs14.99</span>
-                                            </p>
-                                        </div>
-                                        <div class="ps-product__footer">
-                                            <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                                <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
-                                            </div>
-                                            <div class="ps-product__total">Total: <span>Rs14.99</span>
-                                            </div>
-                                            <button class="ps-product__addcart" ><i class="icon-cart"></i>Add to cart</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ps-sell__product">
-                                    <div class="ps-product--standard"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_21a.jpg" alt="alt" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a><span class="ps-badge ps-product__new">New </span>
-                                        <div class="ps-product__content">
-                                            <p class="ps-product__type"><i class="icon-store"></i>Shannan Yu</p>
-                                            <h5><a class="ps-product__name" href="product_details.html">Bar S -Classic Bun Length Franks</a></h5>
-                                            <p class="ps-product__unit">500ml</p>
-                                            <div class="ps-product__rating">
-                                                <select class="rating-stars">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                </select><span>(0)</span>
-                                            </div>
-                                            <p class="ps-product-price-block"><span class="ps-product__price-default">Rs4.99</span>
-                                            </p>
-                                        </div>
-                                        <div class="ps-product__footer">
-                                            <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                                <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
-                                            </div>
-                                            <div class="ps-product__total">Total: <span>Rs4.99</span>
-                                            </div>
-                                            <button class="ps-product__addcart" ><i class="icon-cart"></i>Add to cart</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ps-sell__product">
-                                    <div class="ps-product--standard"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_27a.jpg" alt="alt" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a><span class="ps-badge ps-product__stock">Out of stock </span>
-                                        <div class="ps-product__content">
-                                            <p class="ps-product__type"><i class="icon-store"></i>Shannan Yu</p>
-                                            <h5><a class="ps-product__name" href="product_details.html">Fresh Organic Milk</a></h5>
-                                            <p class="ps-product__unit">100g</p>
-                                            <div class="ps-product__rating">
-                                                <select class="rating-stars">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3" selected="selected">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                </select><span>(6)</span>
-                                            </div>
-                                            <p class="ps-product-price-block"><span class="ps-product__price-default">Rs5.99</span>
-                                            </p>
-                                        </div>
-                                        <div class="ps-product__footer">
-                                            <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                                <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
-                                            </div>
-                                            <div class="ps-product__total">Total: <span>Rs5.99</span>
-                                            </div>
-                                            <button class="ps-product__addcart" ><i class="icon-cart"></i>Add to cart</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ps-sell__product">
-                                    <div class="ps-product--standard"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_6a.jpg" alt="alt" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a><span class="ps-badge ps-product__offbadge">25% Off </span>
-                                        <div class="ps-product__content">
-                                            <p class="ps-product__type"><i class="icon-store"></i>Shannan Yu</p>
-                                            <h5><a class="ps-product__name" href="product_details.html">Honest Organic Still Lemonade</a></h5>
-                                            <p class="ps-product__unit">100g</p>
-                                            <div class="ps-product__rating">
-                                                <select class="rating-stars">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5" selected="selected">5</option>
-                                                </select><span>(14)</span>
-                                            </div>
-                                            <p class="ps-product-price-block"><span class="ps-product__sale">Rs6.99</span><span class="ps-product__price">Rs9.90</span>
-                                            </p>
-                                        </div>
-                                        <div class="ps-product__footer">
-                                            <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                                <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
-                                            </div>
-                                            <div class="ps-product__total">Total: <span>Rs6.99</span>
-                                            </div>
-                                            <button class="ps-product__addcart" ><i class="icon-cart"></i>Add to cart</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="section-recommendations--default">
-                    <div class="container">
-                        <div class="recommendations__header">
-                            <h3 class="recommendations__title">Recommendations</h3>
-                        </div>
-                        <div class="recommendations__content">
-                            <div class="owl-carousel" data-owl-auto="true" data-owl-loop="true" data-owl-speed="15000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="5" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="5" data-owl-duration="1000" data-owl-mousedrag="on">
-                                <div class="ps-recommendation__product">
-                                    <div class="ps-product--standard"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/06-softdrinks-teacoffee/06_5a.jpg" alt="alt" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a><span class="ps-badge ps-product__offbadge">25% Off </span>
-                                        <div class="ps-product__content">
-                                            <p class="ps-product__type"><i class="icon-store"></i>Kinaraa Store</p>
-                                            <h5><a class="ps-product__name" href="product_details.html">Michelob Ultra Cans</a></h5>
-                                            <p class="ps-product__unit">250g</p>
-                                            <div class="ps-product__rating">
-                                                <select class="rating-stars">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4" selected="selected">4</option>
-                                                    <option value="5">5</option>
-                                                </select><span>(2)</span>
-                                            </div>
-                                            <p class="ps-product-price-block"><span class="ps-product__sale">Rs15.99</span><span class="ps-product__price">Rs20.90</span>
-                                            </p>
-                                        </div>
-                                        <div class="ps-product__footer">
-                                            <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                                <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
-                                            </div>
-                                            <div class="ps-product__total">Total: <span>Rs15.99</span>
-                                            </div>
-                                            <button class="ps-product__addcart" ><i class="icon-cart"></i>Add to cart</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ps-recommendation__product">
-                                    <div class="ps-product--standard"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/06-softdrinks-teacoffee/06_11a.jpg" alt="alt" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a><span class="ps-badge ps-product__offbadge">25% Off </span>
-                                        <div class="ps-product__content">
-                                            <p class="ps-product__type"><i class="icon-store"></i>Karery Store</p>
-                                            <h5><a class="ps-product__name" href="product_details.html">Broccoli Crowns</a></h5>
-                                            <p class="ps-product__unit">1 box</p>
-                                            <div class="ps-product__rating">
-                                                <select class="rating-stars">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4" selected="selected">4</option>
-                                                    <option value="5">5</option>
-                                                </select><span>(4)</span>
-                                            </div>
-                                            <p class="ps-product-price-block"><span class="ps-product__sale">Rs9.99</span><span class="ps-product__price">Rs5.90</span>
-                                            </p>
-                                        </div>
-                                        <div class="ps-product__footer">
-                                            <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                                <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
-                                            </div>
-                                            <div class="ps-product__total">Total: <span>Rs9.99</span>
-                                            </div>
-                                            <button class="ps-product__addcart" ><i class="icon-cart"></i>Add to cart</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ps-recommendation__product">
-                                    <div class="ps-product--standard"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_18a.jpg" alt="alt" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a><span class="ps-badge ps-product__stock">Out of stock </span>
-                                        <div class="ps-product__content">
-                                            <p class="ps-product__type"><i class="icon-store"></i>Sun Farm</p>
-                                            <h5><a class="ps-product__name" href="product_details.html">Oniins, Green</a></h5>
-                                            <p class="ps-product__unit">300g</p>
-                                            <div class="ps-product__rating">
-                                                <select class="rating-stars">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4" selected="selected">4</option>
-                                                    <option value="5">5</option>
-                                                </select><span>(2)</span>
-                                            </div>
-                                            <p class="ps-product-price-block"><span class="ps-product__sale">Rs6.90</span><span class="ps-product__price">Rs9.99</span><span class="ps-product__off">35% Off</span>
-                                            </p>
-                                        </div>
-                                        <div class="ps-product__footer">
-                                            <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                                <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
-                                            </div>
-                                            <div class="ps-product__total">Total: <span>Rs6.90</span>
-                                            </div>
-                                            <button class="ps-product__addcart" ><i class="icon-cart"></i>Add to cart</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ps-recommendation__product">
-                                    <div class="ps-product--standard"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_1a.jpg" alt="alt" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a><span class="ps-badge ps-product__new">New </span>
-                                        <div class="ps-product__content">
-                                            <p class="ps-product__type"><i class="icon-store"></i>NauloBazar</p>
-                                            <h5><a class="ps-product__name" href="product_details.html">Corn, Yellow Sweet</a></h5>
+                                            <p class="ps-product__type"><i class="icon-store"></i>Onemart</p>
+                                            <h5><a class="ps-product__name" href="product_details.html">{{$product->name}}</a></h5>
                                             <p class="ps-product__unit">4 per pack</p>
                                             <div class="ps-product__rating">
                                                 <select class="rating-stars">
@@ -330,8 +84,12 @@
                                                     <option value="5">5</option>
                                                 </select><span>(0)</span>
                                             </div>
-                                            <p class="ps-product-price-block"><span class="ps-product__price-default">Rs4.49</span>
+                                            <p class="ps-product-price-block"><span class="ps-product__sale">Rs2.90</span><span class="ps-product__price">Rs4.90</span><span class="ps-product__off">25% Off</span>
                                             </p>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 0%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <p class="ps-product__sold">Sold: 0/40</p>
                                         </div>
                                         <div class="ps-product__footer">
                                             <div class="def-number-input number-input safari_only">
@@ -339,49 +97,178 @@
                                                 <input class="quantity" min="0" name="quantity" value="1" type="number" />
                                                 <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
                                             </div>
-                                            <div class="ps-product__total">Total: <span>Rs4.49</span>
+                                            <div class="ps-product__total">Total: <span>Rs2.90</span>
                                             </div>
-                                            <button class="ps-product__addcart" ><i class="icon-cart"></i>Add to cart</button>
-
+                                            <button class="ps-product__addcart" data-toggle="modal" data-target="#popupAddToCart"><i class="icon-cart"></i>Add to cart</button>
                                         </div>
                                     </div>
                                 </div>
+                               
+                            </div>
+                           
+                        </div>
+                        @endif
+                        @endforeach
+                    </div>
+                </section>
+                @endif
+                <script>
+                     var data=@json($data_of_time);
+    var countDownDate = new Date(data).getTime();
+    
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+    
+      // Get today's date and time
+      var now = new Date().getTime();
+    //   alert(countDownDate);
+        
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+        
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+      // Output the result in an element with id="demo"
+      document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+      + minutes + "m " + seconds + "s ";
+        
+      // If the count down is over, write some text 
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("demo").innerHTML = "EXPIRED";
+      }
+    }, 1000);
+                </script>
+              
+                {{-- End Flash Sell --}}
+
+              {{-- best seller top vendors --}}
+@include('frontend.partials.best_sellers_section')
+                {{-- Top Selling Items --}}
+                @if($bestSelling->count() >0)
+                <section class="ps-component ps-component--selling">
+                   <div class="container">
+                       <div class="component__header">
+                           <h3 class="component__title">Top Best Selling Items</h3>
+                           <a class="component__view" href="">View All <i class="icon-chevron-right"></i></a> 
+                       </div>
+                       <div class="component__content">
+                           <div class="owl-carousel" data-owl-auto="true" data-owl-loop="false" data-owl-speed="12000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="5" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="5" data-owl-duration="1000" data-owl-mousedrag="on">
+                              @foreach($bestSelling as $product)
+                               <div  class="ps-sell__product">
+                                   <div class="ps-product--standard"><a href=""><img class="ps-product__thumbnail" src="{{$product->thumbnail}}" alt="alt" /></a>
+                                       @if($product->tags=='New')
+                                       <span
+                                 class="ps-badge ps-product__new"
+                                 
+                                 >New
+                               </span>
+                               
+                               @elseif($product->current_stock==0)
+                               <span
+                                 class="ps-badge ps-product__stock"
+                                 
+                                 >Out of stock
+                               </span>
+                               
+                                   @elseif($product->discount_type=='amount')
+                                   <span
+                                     class="ps-badge ps-product__offbadge"
+                                    
+                                     >Rs {{ $product->discount }} Off</span
+                                   >
+                                   @else
+                                   
+                                   <span class="ps-badge ps-product__offbadge"
+                                     >{{ $product->discount }}% Off</span
+                                   >
+                                   @endif
+                                
+                                   <!-- <span class="ps-badge ps-product__offbadge">35% Off </span> -->
+                                       <div class="ps-product__content">
+                                           <p class="ps-product__type"><i class="icon-store"></i>{{$product->user->name}}</p>
+                                           <h5><a class="ps-product__name" href="">{{$product->name}}</a></h5>
+                                           <p class="ps-product__unit">{{$product->unit}}</p>
+                                           
+                                           <p  class="ps-product-price-block">
+                                               <span class="ps-product__sale">Rs.{{$product->selling_price}}</span>
+                                           @if($product->discount)
+                                               <span class="ps-product__price">Rs.{{$product->unit_price}}</span>
+                                           @endif
+                                           </p>
+                                           
+                                       </div>
+                                       
+                                   </div>
+                               </div>
+                               @endforeach
+                           </div>
+                       </div>
+                   </div>
+               </section>
+               @endif
+                {{-- End Top Selling --}}
+
+                {{-- Recommendation Section --}}
+                @if($recommended->count()>0 )
+                <section class="section-recommendations--default">
+                    <div class="container">
+                        <div class="recommendations__header">
+                            <h3 class="recommendations__title">Recommendations</h3>
+                        </div>
+                        <div class="recommendations__content">
+                            <div class="owl-carousel" data-owl-auto="true" data-owl-loop="false" data-owl-speed="15000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="5" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="5" data-owl-duration="1000" data-owl-mousedrag="on">
+                                @foreach($recommended as $product)
                                 <div class="ps-recommendation__product">
-                                    <div class="ps-product--standard"><a href="product_details.html"><img class="ps-product__thumbnail" src="assets/img/products/01-fresh/01_32a.jpg" alt="alt" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a>
+                                    <div class="ps-product--standard"><a href=""><img class="ps-product__thumbnail" src="{{$product->thumbnail_img}}" alt="alt" /></a>
+                                        @if($product->tags=='New')
+                                        <span
+                                  class="ps-badge ps-product__new"
+                                  
+                                  >New
+                                </span>
+                                
+                                @elseif($product->current_stock==0)
+                                <span
+                                  class="ps-badge ps-product__stock"
+                                  
+                                  >Out of stock
+                                </span>
+                                
+                                    @elseif($product->discount_type=='amount')
+                                    <span
+                                      class="ps-badge ps-product__offbadge"
+                                     
+                                      >Rs {{ $product->discount }} Off</span
+                                    >
+                                    @else
+                                    
+                                    <span class="ps-badge ps-product__offbadge"
+                                      >{{ $product->discount }}% Off</span
+                                    >
+                                    @endif
+                                    
                                         <div class="ps-product__content">
-                                            <p class="ps-product__type"><i class="icon-store"></i>Shannan Yu</p>
-                                            <h5><a class="ps-product__name" href="product_details.html">Large Green Bell Pepper</a></h5>
-                                            <p class="ps-product__unit">250g</p>
-                                            <div class="ps-product__rating">
-                                                <select class="rating-stars">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4" selected="selected">4</option>
-                                                    <option value="5">5</option>
-                                                </select><span>(2)</span>
-                                            </div>
-                                            <p class="ps-product-price-block"><span class="ps-product__price-default">Rs14.99</span>
+                                            <p class="ps-product__type"><i class="icon-store"></i>{{$product->user->name}}</p>
+                                            <h5><a class="ps-product__name" href="">{{$product->name}}</a></h5>
+                                            <p class="ps-product__unit">{{$product->unit}}</p>
+                                            <p class="ps-product-price-block"><span class="ps-product__price-default">Rs{{$product->price}}</span>
                                             </p>
                                         </div>
-                                        <div class="ps-product__footer">
-                                            <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                                <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
-                                            </div>
-                                            <div class="ps-product__total">Total: <span>Rs14.99</span>
-                                            </div>
-                                            <button class="ps-product__addcart" ><i class="icon-cart"></i>Add to cart</button>
-
-                                        </div>
+                                        
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                 </section>
-
+                @endif
+                {{-- End Recommendation --}}
                 <section class="ps-component ps-component--selling jfu-NauloBazar-sell">
                     <div class="container">
                         <div class="component__header">
@@ -392,6 +279,7 @@
 
 
 @foreach($allproducts as $product)
+
 <div class="col-6 col-md-4 col-lg-3 col-xl-2 p-0">
     <div class="ps-sell__product">
         <div class="ps-product--standard"><a href="{{ route('product', $product->slug) }}"><img class="ps-product__thumbnail" src="{{ $product->thumbnail_img }}" alt="alt" /></a><a class="ps-product__expand" href="javascript:void(0);"><i class="icon-heart"></i></a><span class="ps-badge ps-product__new">New </span>
@@ -419,7 +307,7 @@
                 </div>
                 <div class="ps-product__total">Total: <span>Rs14.99</span>
                 </div>
-                <button class="ps-product__addcart" onclick="showAddToCartModal({{ $product->id }})"><i class="icon-cart"></i>Add to cart</button>
+                <button class="ps-product__addcart" onclick="showdToCartModal({{ $product->id }})"><i class="icon-cart"></i>Add to cart</button>
 
             </div>
         </div>
@@ -721,5 +609,6 @@
                 slickInit();
             });
         });
+     
     </script>
 @endsection

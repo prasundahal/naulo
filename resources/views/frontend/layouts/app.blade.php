@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-@if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
-<html dir="rtl" lang="en">
-@else
-<html lang="en">
-@endif
+
 <head>
 
 @php
@@ -11,6 +7,7 @@
 @endphp
 
 <meta charset="utf-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
 <title>@yield('meta_title', config('app.name', 'Laravel'))</title>
@@ -113,10 +110,32 @@
 <body>
         <div>
          @include('frontend.inc.nav')
+
+
        @yield('content')
+
+
         @include('frontend.inc.footer')
         @include('frontend.partials.modal')
 
+    </div>
+
+    <div class="modal fade" id="addToCart">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom product-modal" id="modal-size" role="document">
+            <div class="modal-content position-relative">
+                <div class="c-preloader">
+                    <i class="fa fa-spin fa-spinner"></i>
+                </div>
+                <button type="button" class="close absolute-close-btn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div id="addToCart-modal-body">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
            <script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/plugins/jquery.min.js"></script>
             <script src="{{ asset('assets/plugins/popper.min.js') }}"></script>
             <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
@@ -128,31 +147,11 @@
             <script src="{{ asset('assets/plugins/lightgallery/dist/js/lightgallery-all.min.js') }}"></script>
             <script src="{{ asset('gh/dogfalo/materialize_master/extras/nouislider/nouislider.min.js') }}"></script>
             <!-- custom code-->
-            <script src="{{ asset('frontend/js/xzoom.min.js') }}"></script>
-            <script src="{{ asset('frontend/js/vendor/popper.min.js') }}"></script>
-            <script src="{{ asset('frontend/js/vendor/bootstrap.min.js') }}"></script>
-
-            <!-- Plugins: Sorted A-Z -->
-            <script src="{{ asset('frontend/js/jquery.countdown.min.js') }}"></script>
-            <script src="{{ asset('frontend/js/select2.min.js') }}"></script>
-            <script src="{{ asset('frontend/js/nouislider.min.js') }}"></script>
-            <script src="{{ asset('frontend/js/sweetalert2.min.js') }}"></script>
-            <script src="{{ asset('frontend/js/slick.min.js') }}"></script>
-            <script src="{{ asset('frontend/js/jssocials.min.js') }}"></script>
-            <script src="{{ asset('frontend/js/bootstrap-tagsinput.min.js') }}"></script>
-            <script src="{{ asset('frontend/js/jodit.min.js') }}"></script>
-            <script src="{{ asset('frontend/js/xzoom.min.js') }}"></script>
-            <script src="{{ asset('frontend/js/fb-script.js') }}"></script>
-            <script src="{{ asset('frontend/js/lazysizes.min.js') }}"></script>
-            <script src="{{ asset('frontend/js/intlTelInput.min.js') }}"></script>
-
-            <!-- App JS -->
-            <script src="{{ asset('frontend/js/active-shop.js') }}"></script>
-            <script src="{{ asset('frontend/js/main.js') }}"></script>
+           
 
             <script src="{{ asset('assets/js/main.js') }}"></script>
 
-
+ 
 
 <script>
     function showFrontendAlert(type, message){
@@ -544,6 +543,6 @@
 </script>
 
 @yield('script')
-        </div>
- </body>
+       
+
 

@@ -8,10 +8,12 @@ use Auth;
 use Hash;
 use App\Category;
 use App\FlashDeal;
+use App\FlashDealProduct;
 use App\Brand;
 use App\SubCategory;
 use App\SubSubCategory;
 use App\Product;
+
 use App\PickupPoint;
 use App\CustomerPackage;
 use App\CustomerProduct;
@@ -29,9 +31,11 @@ class HomeController extends Controller
 {
     public function login()
     {
+      
         if(Auth::check()){
             return redirect()->route('home');
         }
+        
         return view('frontend.user_login');
     }
 
@@ -107,6 +111,7 @@ class HomeController extends Controller
      */
     public function dashboard()
     {
+        
         if(Auth::user()->user_type == 'seller'){
             return view('frontend.seller.dashboard');
         }
@@ -198,9 +203,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $allproducts= Product::orderBy('id','DESC')->paginate(20);
 
-        return view('frontend.index',compact('allproducts'));
+        $allproducts= Product::orderBy('id','DESC')->paginate(20);
+      $recommended = Product::where('featured',1)->where('published',1)->with('user')->get();
+      $bestSelling = Product::whereHas('orderDetails')
+      ->withCount('orderDetails')
+      ->with('user','reviews')
+      ->orderBy('order_details_count','desc')
+      ->limit(10)->get();
+     
+       return view('frontend.index',compact('allproducts','recommended','bestSelling'));
     }
 
     public function flash_deal_details($slug)

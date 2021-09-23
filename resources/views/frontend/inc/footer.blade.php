@@ -247,7 +247,7 @@ $generalsetting = \App\GeneralSetting::first();
                     </div>
                 </div>
             </footer>
-            <div class="ps-footer-mobile">
+            {{-- <div class="ps-footer-mobile">
                 <div class="menu__content">
                     <ul class="menu--footer">
                         <li class="nav-item"><a class="nav-link" href="index.html"><i class="icon-home3"></i><span>Home</span></a></li>
@@ -256,7 +256,7 @@ $generalsetting = \App\GeneralSetting::first();
                         <li class="nav-item"><a class="nav-link" href="wishlist.html"><i class="icon-heart"></i><span>Wishlist</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html"><i class="icon-user"></i><span>Account</span></a></li>
                     </ul>
-                </div>
+                </d iv>
             </div>
             <button class="btn scroll-top"><i class="icon-chevron-up"></i></button>
             <div class="ps-preloader" id="preloader">
@@ -401,4 +401,4 @@ $generalsetting = \App\GeneralSetting::first();
                         <li class="footer-item"><a class="footer-link" href="#"><i class="icon-telephone"></i><span>HOTLINE: <span class='text-success'>(+977) 9810099062 </span> (Free)</span></a></li>
                     </ul>
                 </div>
-            </nav>
+            </nav> --}}
