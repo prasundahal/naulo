@@ -22,6 +22,7 @@ class FlashDealController extends Controller
             $flash_deals = $flash_deals->where('title', 'like', '%'.$sort_search.'%');
         }
         $flash_deals = $flash_deals->paginate(15);
+
         return view('flash_deals.index', compact('flash_deals', 'sort_search'));
     }
 
@@ -171,6 +172,7 @@ class FlashDealController extends Controller
 
     public function update_featured(Request $request)
     {
+
         foreach (FlashDeal::all() as $key => $flash_deal) {
             $flash_deal->featured = 0;
             $flash_deal->save();

@@ -82,10 +82,10 @@ $generalsetting = \App\GeneralSetting::first();
                                         </div>
                                     </li>
                                     @else
-                                    <li class="nav-top-item account"><a class="nav-top-link" href="{{ route('user.login') }}"> <i class="icon-user"></i>Login</a>
+                                    <li class="nav-top-item account"><a class="nav-top-link" href="{{ route('user.login') }}"> <i class="icon-key"></i>Login</a>
 
                                     </li>
-                                    <li class="nav-top-item account"><a class="nav-top-link" href="{{ route('user.registration') }}"> <i class="icon-user"></i>Rehister</a>
+                                    <li class="nav-top-item account"><a class="nav-top-link" href="{{ route('user.registration') }}"> <i class="icon-user"></i>Register</a>
 
                                     </li>
                                     @endauth
@@ -110,7 +110,7 @@ $generalsetting = \App\GeneralSetting::first();
                             <div class="header-inner__left">
                                 <button class="navbar-toggler"><i class="icon-menu"></i></button>
                             </div>
-                            <div class="header-inner__center"><a class="logo open" href="index.html">Naulo<span class="text-black"> Bazar</span></a></div>
+                            <div class="header-inner__center"><a class="logo open" href="/">Naulo<span class="text-black"> Bazar</span></a></div>
                             <div class="header-inner__right">
                                 <button class="button-icon icon-sm search-mobile"><i class="icon-magnifier"></i></button>
                             </div>
@@ -120,7 +120,7 @@ $generalsetting = \App\GeneralSetting::first();
                 <section class="ps-header--center header-desktop">
                     <div class="container">
                         <div class="header-inner">
-                            <div class="header-inner__left"><a class="logo" href="index.html">Naulo<b class="text-white"> Bazar</b></a>
+                            <div class="header-inner__left"><a class="logo" href="/">Naulo<b class="text-white"> Bazar</b></a>
                                 <button class="category-toggler"><i class="icon-menu"></i></button>
                             </div>
                             <div class="header-inner__center">
@@ -152,7 +152,11 @@ $generalsetting = \App\GeneralSetting::first();
                             <div class="header-inner__right">
                                 <a class="button-icon icon-md" href="{{ route('wishlists.index') }}">
                                     <i class="icon-heart text-white"></i>
-                                    <span class="badge bg-warning">2</span>
+                                    @if(Auth::check())
+                                    <span class="badge bg-warning">{{ count(Auth::user()->wishlists)}}</span>
+                                    @else
+                                    <span class="badge bg-warning">0</span>
+                                    @endif
                                 </a>
 
 
@@ -247,10 +251,11 @@ $generalsetting = \App\GeneralSetting::first();
                                         <li class="menu-item-has-children category-item"><a href="{{ route('products.category', $category->slug) }}">{{ __($category->name) }}</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
 
                                             <ul class="sub-menu">
-                                                @if(count($category->subcategories)>0)
-                                                <li> <a href="">Meat & Poultry</a>
+                                                @foreach ($category->subCategories as $subcat )
+                                                <li>
+                                               <a href="{{route('products.category',$subcat->slug)}}"> {{$subcat->name}}</a>
                                                 </li>
-                                                @endif
+                                                @endforeach
                                             </ul>
                                         </li>
                                         @endforeach
@@ -338,7 +343,7 @@ $generalsetting = \App\GeneralSetting::first();
                         </ul>
                         <div class="navigation-text">
                             <ul class="menu">
-                                <li class="menu-item-has-children has-mega-menu"><a class="nav-link" href="become-a-vendor.html">Become A Vendor</a>
+                                <li class="menu-item-has-children has-mega-menu"><a class="nav-link" href="{{ route('becomea.vendor')  }}">Become A Vendor</a>
                                 </li>
                             </ul>
                         </div>

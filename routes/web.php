@@ -18,6 +18,9 @@ Route::get('/demo/cron_2', 'DemoController@cron_2');
 Route::get('/new', function () {
 	return view('new');
 });
+Route::get('/become-a-vendor', function () {
+	return view('become-a-vendor');
+})->name('becomea.vendor');
 
 Auth::routes(['verify' => true]);
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');

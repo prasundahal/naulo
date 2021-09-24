@@ -1,107 +1,93 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-    <section class="gry-bg py-4">
-        <div class="profile">
+
+
+
+    <main class="no-main">
+        <div class="ps-breadcrumb">
+            <div class="container">
+                <ul class="ps-breadcrumb__list">
+                    <li class="active"><a href="/">Home</a></li>
+                    <li><a href="{{ route('user.registration') }}">User Register</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="section--login">
             <div class="container">
                 <div class="row">
-                    <div class="col-xxl-4 col-xl-5 col-lg-6 col-md-8 mx-auto">
-                        <div class="card">
-                            <div class="text-center px-35 pt-5">
-                                <h1 class="heading heading-4 strong-500">
-                                    {{__('Create an account.')}}
-                                </h1>
+                    <div class="col-12 col-lg-6">
+                        <div class="login__box">
+                            <div class="login__header">
+                                <h3 class="login__login">Create your Naulobazar Account</h3>
                             </div>
-                            <div class="px-5 py-3 py-lg-4">
-                                <div class="">
-                                    <form class="form-default" role="form" action="{{ route('register') }}" method="POST">
-                                        @csrf
-                                        <div class="form-group">
-                                            <div class="input-group input-group--style-1">
-                                                <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" placeholder="{{ __('Name') }}" name="name">
-                                                <span class="input-group-addon">
-                                                    <i class="text-md la la-user"></i>
-                                                </span>
-                                                @if ($errors->has('name'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('name') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
+                            <div class="login__content">
+                                <form role="form" action="{{ route('register') }}" method="POST">
+                                    @csrf
+                                    <div class="form-row">
+                                        <div class="col-12 col-lg-12  form-group--block">
+                                            <label>Full Name <span>*</span></label>
+                                            <input class="form-control" type="text" {{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" placeholder="{{ __('Name') }}" name="name" required="">
+                                            @if ($errors->has('name'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('name') }}</strong>
+                                            </span>
+                                        @endif
+                                        </div>
+
+
+                                        <div class="col-12 col-lg-6 form-group--block">
+                                            <label>Password: <span>*</span></label>
+
+                                            <input class="form-control" type="password" {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Password') }}" name="password" required="">
+                                            @if ($errors->has('password'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('password') }}</strong>
+                                            </span>
+                                        @endif
+                                        </div>
+                                        <div class="col-12 col-lg-6 form-group--block">
+                                            <label>Confirm Password: <span>*</span></label>
+                                            <input class="form-control" type="password" placeholder="{{ __('Confirm Password') }}" name="password_confirmation" required="">
                                         </div>
 
                                         @if (\App\Addon::where('unique_identifier', 'otp_system')->first() != null && \App\Addon::where('unique_identifier', 'otp_system')->first()->activated)
-                                            <div class="form-group phone-form-group">
-                                                <div class="input-group input-group--style-1">
-                                                    <input type="tel" id="phone-code" class="border-right-0 h-100 w-100 form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}" placeholder="{{ __('Mobile Number') }}" name="phone">
-                                                    <span class="input-group-addon">
-                                                        <i class="text-md la la-phone"></i>
-                                                    </span>
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('phone') }}</strong>
-                                                    </span>
-                                                </div>
-                                            </div>
+                                        <div class="col-12 col-lg-12  form-group--block">
+                                            <label>Phone: <span>*</span></label>
+                                            <input class="form-control"type="tel" id="phone-code" {{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}" placeholder="{{ __('Mobile Number') }}" name="phone">
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('phone') }}</strong>
+                                            </span>
+                                        </div>
+                                        <input type="hidden" name="country_code" value="">
 
-                                            <input type="hidden" name="country_code" value="">
+                                        <div class="col-12 col-lg-12  form-group--block">
+                                            <label>Email: <span>*</span></label>
 
-                                            <div class="form-group email-form-group">
-                                                <div class="input-group input-group--style-1">
-                                                    <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{ __('Email') }}" name="email">
-                                                    <span class="input-group-addon">
-                                                        <i class="text-md la la-envelope"></i>
-                                                    </span>
-                                                    @if ($errors->has('email'))
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $errors->first('email') }}</strong>
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <button class="btn btn-link p-0" type="button" onclick="toggleEmailPhone(this)">Use Email Instead</button>
-                                            </div>
-                                        @else
-                                            <div class="form-group">
-                                                <div class="input-group input-group--style-1">
-                                                    <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{ __('Email') }}" name="email">
-                                                    <span class="input-group-addon">
-                                                        <i class="text-md la la-envelope"></i>
-                                                    </span>
-                                                    @if ($errors->has('email'))
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $errors->first('email') }}</strong>
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                            </div>
+                                            <input class="form-control" type="email" {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{ __('Email') }}" name="email">
+                                            @if ($errors->has('email'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('email') }}</strong>
+                                            </span>
                                         @endif
-
+                                        </div>
                                         <div class="form-group">
-                                            <!-- <label>{{ __('password') }}</label> -->
-                                            <div class="input-group input-group--style-1">
-                                                <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Password') }}" name="password">
-                                                <span class="input-group-addon">
-                                                    <i class="text-md la la-lock"></i>
-                                                </span>
-                                                @if ($errors->has('password'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('password') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
+                                            <button class="btn btn-link p-0" type="button" onclick="toggleEmailPhone(this)">Use Email Instead</button>
                                         </div>
 
-                                        <div class="form-group">
-                                            <!-- <label>{{ __('confirm_password') }}</label> -->
-                                            <div class="input-group input-group--style-1">
-                                                <input type="password" class="form-control" placeholder="{{ __('Confirm Password') }}" name="password_confirmation">
-                                                <span class="input-group-addon">
-                                                    <i class="text-md la la-lock"></i>
-                                                </span>
-                                            </div>
+                                        @else
+                                        <div class="col-12 col-lg-12  form-group--block">
+                                            <label>Email: <span>*</span></label>
+
+                                            <input class="form-control" type="email" {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{ __('Email') }}" name="email">
+                                            @if ($errors->has('email'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('email') }}</strong>
+                                            </span>
+                                        @endif
                                         </div>
+                                        @endif
 
                                         <div class="form-group">
                                             <div class="g-recaptcha" data-sitekey="{{ env('CAPTCHA_KEY') }}">
@@ -113,57 +99,107 @@
                                             </div>
                                         </div>
 
-
-                                        <div class="checkbox pad-btm text-left">
-                                            <input class="magic-checkbox" type="checkbox" name="checkbox_example_1" id="checkboxExample_1a" required>
-                                            <label for="checkboxExample_1a" class="text-sm">{{__('By signing up you agree to our terms and conditions.')}}</label>
+                                        <div class="col-12 col-lg-12  form-group--block">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="email0" value="">
+                                                <label for="email0">I want to receive exclusive offers and promotions from <strong>Naulobazar.</strong></label>
+                                            </div>
                                         </div>
 
-                                        <div class="text-right mt-3">
-                                            <button type="submit" class="btn btn-styled btn-base-1 w-100 btn-md">{{ __('Create Account') }}</button>
-                                        </div>
-                                    </form>
-                                    @if(\App\BusinessSetting::where('type', 'google_login')->first()->value == 1 || \App\BusinessSetting::where('type', 'facebook_login')->first()->value == 1 || \App\BusinessSetting::where('type', 'twitter_login')->first()->value == 1)
-                                        <div class="or or--1 mt-3 text-center">
-                                            <span>or</span>
-                                        </div>
-                                        <div>
+                                    </div>
+                                     <button class="btn btn-login" type="submit">Register</button>
+
+                                     @if(\App\BusinessSetting::where('type', 'google_login')->first()->value == 1 || \App\BusinessSetting::where('type', 'facebook_login')->first()->value == 1 || \App\BusinessSetting::where('type', 'twitter_login')->first()->value == 1)
+
+
+                                     <div class="login__conect">
+                                        <hr>
+                                        <p>Or Sign Up with</p>
+                                        <hr>
+                                    </div>
+
+
+                                    <div class="row">
                                         @if (\App\BusinessSetting::where('type', 'facebook_login')->first()->value == 1)
-                                            <a href="{{ route('social.login', ['provider' => 'facebook']) }}" class="btn btn-styled btn-block btn-facebook btn-icon--2 btn-icon-left px-4 mb-3">
-                                                <i class="icon fa fa-facebook"></i> {{__('Login with Facebook')}}
-                                            </a>
+                                        <div class="col-12 col-lg-6">
+                                            <a href="{{ route('social.login', ['provider' => 'facebook']) }}">
+                                            <button class="btn btn-social btn-facebook" type="button">
+                                                <i class="fa fa-facebook-f"></i>Facebook</button>
+                                            </div></a>
+                                            @endif
+
+                                            @if(\App\BusinessSetting::where('type', 'google_login')->first()->value == 1)
+
+                                            <div class="col-12 col-lg-6">
+                                                <a href="{{ route('social.login', ['provider' => 'google']) }}">
+                                            <button   type="button" class="btn btn-social btn-google">
+                                                <i class="fa fa-google-plus"></i>Google</button>
+                                        </div> </a>@endif
+
+
+                                        <div class="clearfix"></div>
                                         @endif
-                                        @if(\App\BusinessSetting::where('type', 'google_login')->first()->value == 1)
-                                            <a href="{{ route('social.login', ['provider' => 'google']) }}" class="btn btn-styled btn-block btn-google btn-icon--2 btn-icon-left px-4 mb-3">
-                                                <i class="icon fa fa-google"></i> {{__('Login with Google')}}
-                                            </a>
-                                        @endif
-                                        @if (\App\BusinessSetting::where('type', 'twitter_login')->first()->value == 1)
-                                            <a href="{{ route('social.login', ['provider' => 'twitter']) }}" class="btn btn-styled btn-block btn-twitter btn-icon--2 btn-icon-left px-4">
-                                                <i class="icon fa fa-twitter"></i> {{__('Login with Twitter')}}
-                                            </a>
-                                        @endif
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="text-center px-35 pb-3">
-                                <p class="text-md">
-                                    {{__('Already have an account?')}}<a href="{{ route('user.login') }}" class="strong-600">{{__('Log In')}}</a>
-                                </p>
-                            </div>
+                                    </div>
+                                </form>
                         </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="login_big_link">
+                        <h3 class="login__title">Already Have an Account?</h3>
+                        <h3>
+                            <a href="{{ route('user.login') }}"><i class="fa fa-hand-o-right"></i> Login Here.</a>
+                        </h3>
+                    </div>
+
+                    <h3 class="login__title">Advantages Of Becoming A Member</h3>
+                    <p class="login__description"> <b>Naulobazar Buyer Protection </b>has you covered from click to
+                        delivery.<br>Sign up or sign in and you will be able to: </p>
+                    <div class="login__orther">
+                        <p> <i class="icon-truck"></i>Easily Track Orders, Hassle free Returns</p>
+                        <p> <i class="icon-alarm2"></i>Get Relevant Alerts and Recommendation</p>
+                        <p><i class="icon-star"></i>Wishlist, Reviews, Ratings and more.</p>
+                    </div>
+                    <div class="login__vourcher">
+                        <div class="vourcher-money"><span class="unit">Rs</span><span
+                                class="number">25</span></div>
+                        <div class="vourcher-content">
+                            <h4 class="vourcher-title">GIFT VOURCHER FOR FISRT PURCHASE</h4>
+                            <p>We give Rs25 as a small gift for your first purchase.<br>Welcome to Naulobazar Market!</p>
+                        </div>
+                    </div>
+
+                    <div class="help-area">
+                        <h3> Need Help? </h3>
+                        <p>
+                            If you are facing any problem and have any query then feel free to ask.
+                        </p>
+                        <h4 class="phone-number">
+                            <i class="icon-phone">&nbsp;</i>
+                            +977-9810099062
+                        </h4>
+                        <h4 class="email-address">
+                            <i class="icon-envelope">&nbsp;</i>
+                            support@onestorenepal.com.np
+                        </h4>
+                        <div class="clearfix"></div>
                     </div>
 
                 </div>
             </div>
-        </div>
-    </section>
+            </div>
+        </section>
+
+
+    </main>
+
+
+
+
 @endsection
 
 @section('script')
     <script type="text/javascript">
-
         var isPhoneShown = true;
 
         var input = document.querySelector("#phone-code");
@@ -180,27 +216,27 @@
             $('input[name=country_code]').val(country.dialCode);
         });
 
-        $(document).ready(function(){
+        $(document).ready(function() {
             $('.email-form-group').hide();
         });
 
-        function autoFillSeller(){
+        function autoFillSeller() {
             $('#email').val('seller@example.com');
             $('#password').val('123456');
         }
-        function autoFillCustomer(){
+
+        function autoFillCustomer() {
             $('#email').val('customer@example.com');
             $('#password').val('123456');
         }
 
-        function toggleEmailPhone(el){
-            if(isPhoneShown){
+        function toggleEmailPhone(el) {
+            if (isPhoneShown) {
                 $('.phone-form-group').hide();
                 $('.email-form-group').show();
                 isPhoneShown = false;
                 $(el).html('Use Phone Instead');
-            }
-            else{
+            } else {
                 $('.phone-form-group').show();
                 $('.email-form-group').hide();
                 isPhoneShown = true;

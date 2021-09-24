@@ -198,9 +198,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $allproducts= Product::orderBy('id','DESC')->paginate(20);
 
-        return view('frontend.index',compact('allproducts'));
+        $allproducts= Product::orderBy('id','DESC')->paginate(20);
+      $recommended = Product::where('featured',1)->where('published',1)->with('user')->get();
+      $bestSelling = Product::whereHas('orderDetails')
+      ->withCount('orderDetails')
+      ->with('user','reviews')
+      ->orderBy('order_details_count','desc')
+      ->limit(10)->get();
+
+
+       return view('frontend.index',compact('allproducts','recommended','bestSelling'));
     }
 
     public function flash_deal_details($slug)
@@ -253,6 +261,8 @@ class HomeController extends Controller
                 return view('frontend.digital_product_details', compact('detailedProduct'));
             }
             else {
+                // dd($detailedProduct);
+
                 return view('frontend.product_details', compact('detailedProduct'));
             }
             // return view('frontend.product_details', compact('detailedProduct'));
