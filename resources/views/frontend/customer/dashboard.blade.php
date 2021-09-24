@@ -2,154 +2,144 @@
 
 @section('content')
 
-    <section class="gry-bg py-4 profile">
+<main class="no-main">
+    <div class="ps-breadcrumb">
         <div class="container">
-            <div class="row cols-xs-space cols-sm-space cols-md-space">
-                <div class="col-lg-3 d-none d-lg-block">
-                    @include('frontend.inc.customer_side_nav')
-                </div>
-                <div class="col-lg-9">
-                    <!-- Page title -->
-                    <div class="page-title">
-                        <div class="row align-items-center">
-                            <div class="col-md-6 col-12">
-                                <h2 class="heading heading-6 text-capitalize strong-600 mb-0">
-                                    {{__('Dashboard')}}
-                                </h2>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="float-md-right">
-                                    <ul class="breadcrumb">
-                                        <li><a href="{{ route('home') }}">{{__('Home')}}</a></li>
-                                        <li class="active"><a href="{{ route('dashboard') }}">{{__('Dashboard')}}</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- dashboard content -->
-                    <div class="">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="dashboard-widget text-center green-widget mt-4 c-pointer">
-                                    <a href="javascript:;" class="d-block">
-                                        <i class="fa fa-shopping-cart"></i>
-                                        @if(Session::has('cart'))
-                                            <span class="d-block title">{{ count(Session::get('cart'))}} {{__('Product(s)')}}</span>
-                                        @else
-                                            <span class="d-block title">0 {{__('Product')}}</span>
-                                        @endif
-                                        <span class="d-block sub-title">{{__('in your cart')}}</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="dashboard-widget text-center red-widget mt-4 c-pointer">
-                                    <a href="javascript:;" class="d-block">
-                                        <i class="fa fa-heart"></i>
-                                        <span class="d-block title">{{ count(Auth::user()->wishlists)}} {{__('Product(s)')}}</span>
-                                        <span class="d-block sub-title">{{__('in your wishlist')}}</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="dashboard-widget text-center yellow-widget mt-4 c-pointer">
-                                    <a href="javascript:;" class="d-block">
-                                        <i class="fa fa-building"></i>
-                                        @php
-                                            $orders = \App\Order::where('user_id', Auth::user()->id)->get();
-                                            $total = 0;
-                                            foreach ($orders as $key => $order) {
-                                                $total += count($order->orderDetails);
-                                            }
-                                        @endphp
-                                        <span class="d-block title">{{ $total }} {{__('Product(s)')}}</span>
-                                        <span class="d-block sub-title">{{__('you ordered')}}</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-box bg-white mt-4">
-                                    <div class="form-box-title px-3 py-2 clearfix ">
-                                        {{__('Default Shipping Address')}}
-                                        <div class="float-right">
-                                            <a href="{{ route('profile') }}" class="btn btn-link btn-sm">{{__('Edit')}}</a>
-                                        </div>
-                                    </div>
-                                    <div class="form-box-content p-3">
-                                        @if(Auth::user()->addresses != null)
-                                            @php
-                                                $address = Auth::user()->addresses->where('set_default', 1)->first();
-                                            @endphp
-                                            @if($address != null)
-                                                <table>
-                                                    <tr>
-                                                        <td>{{__('Address')}}:</td>
-                                                        <td class="p-2">{{ $address->address }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{{__('Country')}}:</td>
-                                                        <td class="p-2">
-                                                            {{ $address->country }}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{{__('City')}}:</td>
-                                                        <td class="p-2">{{ $address->city }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{{__('Postal Code')}}:</td>
-                                                        <td class="p-2">{{ $address->postal_code }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{{__('Phone')}}:</td>
-                                                        <td class="p-2">{{ $address->phone }}</td>
-                                                    </tr>
-                                                </table>
-                                            @endif
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                            @if (\App\BusinessSetting::where('type', 'classified_product')->first()->value)
-                                <div class="col-md-6">
-                                    <div class="form-box bg-white mt-4">
-                                        <div class="form-box-title px-3 py-2 clearfix ">
-                                            {{__('Purchased Package')}}
-                                        </div>
-                                        @php
-                                            $customer_package = \App\CustomerPackage::find(Auth::user()->customer_package_id);
-                                        @endphp
-                                        <div class="form-box-content p-3">
-                                            @if($customer_package != null)
-                                                <div class="form-box-content p-2 category-widget text-center">
-                                                    <center><img alt="Package Logo" src="{{ asset($customer_package->logo) }}" style="height:100px; width:90px;"></center>
-                                                    <br>
-                                                    <left> <strong><p>{{__('Product Upload')}}: {{ $customer_package->product_upload }} {{__('Times')}}</p></strong></left>
-                                                    <strong><p>{{__('Product Upload Remaining')}}: {{ Auth::user()->remaining_uploads }} {{__('Times')}}</p></strong>
-                                                    <strong><p><div class="name mb-0">{{__('Current Package')}}: {{ $customer_package->name }} <span class="ml-2"><i class="fa fa-check-circle" style="color:green"></i></span></div></p></strong>
-                                                </div>
-                                            @else
-                                                <div class="form-box-content p-2 category-widget text-center">
-                                                    <center><strong><p>{{__('Package Not Found')}}</p></strong></center>
-                                                </div>
-                                            @endif
-                                            <div class="text-center">
-                                                <a href="{{ route('customer_packages_list_show') }}" class="btn btn-styled btn-base-1 btn-outline btn-sm">{{__('Upgrade Package')}}</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            <ul class="ps-breadcrumb__list">
+                <li class="active"><a href="index.html">Home</a></li>
+                <li><a href="javascript:void(0);">User Dashboard</a></li>
+            </ul>
         </div>
+    </div>
+
+    <section class="section--become">
+        <?php
+            // $image=DB::table('users')->where()    
+        ?>
+        <div class="text-center">
+            @php
+                // dd(auth()->user()->avatar);
+            @endphp
+          </div>
+        <h2 class="page__title">My Dashboard </h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-lg-3">
+                    @include('frontend.inc.dashboardSidebar');
+                    </div>
+                    <div class="col-12 col-lg-9">
+                        <div class="user__content mb-30">
+                            <div class="row m-0">
+                                <div class="col-6 col-sm-12 col-md-6 col-lg-4 user__item">
+                                    <div class="user__icon"><i class=""><img src="{{asset(Auth::user()->avatar_original)}}" alt="" srcset="" height="75px" width="75px"></i></div>
+                                    <div class="user__item__content">
+                                        <div class="user_setting_name">My Profile</div>
+                                        <p class="user_name">{{Auth()->user()->name}}</p>
+                                        <a href="{{route('profile')}}" class="btn btn-light btn-sm">
+                                            Edit Profile
+                                        </a>
+                                    </div>
+                                </div>
+                            
+                                <div class="col-6 col-lg-4 user__item">
+                                    <div class="user__icon"><i class="icon-map-marker-user"></i></div>
+                                    <div class="user__item__content">
+                                        <div class="user_setting_name">My Address</div>
+                                        <p>{{Auth::user()->address}}</p>
+                                        <p class="user_name"></p>
+                                        <a href="" class="btn btn-light btn-sm">
+                                            Edit Address
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg-4 user__item">
+                                    <div class="user__icon"><i class="icon-cart-add"></i></div>
+                                    <div class="user__item__content">
+                                        <div class="user_setting_name">My Order</div>
+                                        <p class="user_name">Total Order:<span>{{$myOrderCount}}</span> </p>
+                                        <a href="{{route('order')}}" class="btn btn-light btn-sm">
+                                            View Order
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg-4 user__item">
+                                    <div class="user__icon"><i class="icon-cart-remove"></i></div>
+                                    <div class="user__item__content">
+                                        <div class="user_setting_name">My Returns</div>
+                                        <p class="user_name">Order Returns: <span>15</span> </p>
+                                        <a href="#" class="btn btn-light btn-sm">
+                                            View Returns
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg-4 user__item">
+                                    <div class="user__icon"><i class="icon-stream-error"></i></div>
+                                    <div class="user__item__content">
+                                        <div class="user_setting_name">My Cancellations</div>
+                                        <p class="user_name">Order Cancel: <span>5</span> </p>
+                                        <a href="#" class="btn btn-light btn-sm">
+                                            View Cancellations
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg-4 vender__item">
+                                    <div class="vender__icon"><i class="icon-heart"></i></div>
+                                    <div class="user__item__content">
+                                        <div class="user_setting_name">My Wishlist</div>
+                                        <p class="user_name">Wishlist: <span></span> </p>
+                                        <a href="" class="btn btn-light btn-sm">
+                                            View Wishlist
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="product_tbl">
+                            <h4>Recent Order</h4>
+                            
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Order ID #</th>
+                                        <th scope="col">Product Name</th>
+                                        <th scope="col">Unit Price</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                
+                                    <tr>
+                                        <td>
+                                            <div class="order_id">
+                                               
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ps-product--vertical"><a href=""><img class="ps-product__thumbnail" src="" alt="alt" /></a>
+                                                <div class="ps-product__content">
+                                                    <h5><a class="ps-product__name" href=""></a></h5>
+                                                    <p class="ps-product__unit"></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="ps-product__price">Rs </span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-light">Order Detail</button>
+                                        </td>
+                                    </tr>
+                               
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div> 
     </section>
+</main>
 
 @endsection

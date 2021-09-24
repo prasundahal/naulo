@@ -112,11 +112,12 @@ class HomeController extends Controller
     public function dashboard()
     {
         
+        $myOrderCount = Order::where('user_id',auth()->id())->whereHas('orderDetails')->with('orderDetails.product')->latest()->count();
         if(Auth::user()->user_type == 'seller'){
             return view('frontend.seller.dashboard');
         }
         elseif(Auth::user()->user_type == 'customer'){
-            return view('frontend.customer.dashboard');
+            return view('frontend.customer.dashboard',compact('myOrderCount'));
         }
         else {
             abort(404);
@@ -131,6 +132,28 @@ class HomeController extends Controller
         elseif(Auth::user()->user_type == 'seller'){
             return view('frontend.seller.profile');
         }
+    }
+
+    public function orders(Request $request)
+    {
+        $myOrders = Order::where('user_id',auth()->id())->whereHas('orderDetails')->with('orderDetails.product')->get();
+        
+        return view('frontend.customer.order',compact('myOrders'));
+    }
+
+    public function returns(Request $request)
+    {
+        return view('frontend.customer.return');
+    }
+
+    public function cancel(Request $request)
+    {
+        return view('frontend.customer.cancel');
+    }
+
+    public function review(Request $request)
+    {
+        return view('frontend.customer.review');
     }
 
     public function customer_update_profile(Request $request)

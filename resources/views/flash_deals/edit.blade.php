@@ -46,10 +46,10 @@
                     <label class="col-sm-3 control-label" for="start_date">{{__('Date')}}</label>
                     <div class="col-sm-9">
                         <div id="demo-dp-range">
-                            <div class="input-daterange input-group" id="datepicker">
-                                <input type="text" class="form-control" name="start_date" value="{{ date('m/d/Y', $flash_deal->start_date) }}">
+                            <div class="input-group" >
+                                <input type="datetime-local" class="form-control" name="start_date" value="{{ date('m/d/Y', $flash_deal->start_date) }}">
                                 <span class="input-group-addon">{{__('to')}}</span>
-                                <input type="text" class="form-control" name="end_date" value="{{ date('m/d/Y', $flash_deal->end_date) }}">
+                                <input type="datetime-local" class="form-control" name="end_date" value="{{ date('m/d/Y', $flash_deal->end_date) }}">
                             </div>
                         </div>
                     </div>

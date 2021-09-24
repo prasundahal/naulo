@@ -228,8 +228,10 @@ $generalsetting = \App\GeneralSetting::first();
                         </div>
                     </div>
                 </section>
+                
                 <nav class="navigation">
                     <div class="container">
+                        {{-- Category --}}
                         <ul class="menu menu-dark">
                            <li class="menu-item-has-children has-mega-menu"><a class="nav-link" href="javascript:void(0);"> <i class="icon-text-align-left text-white mr-3"></i>Categories </a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
                                 <div class="mega-menu mega-menu-category">
@@ -244,13 +246,20 @@ $generalsetting = \App\GeneralSetting::first();
                                         @php
                                             $brands = array();
                                         @endphp
+                                        {{-- @php
+                                          
+                                            foreach ($category->subCategories as $key => $cat) {
+                                                dd($cat->name);
+                                            }
+                                        @endphp --}}
                                         <li class="menu-item-has-children category-item"><a href="{{ route('products.category', $category->slug) }}">{{ __($category->name) }}</a><span class="sub-toggle"><i class="icon-chevron-down"></i></span>
                                             
                                             <ul class="sub-menu">
-                                                @if(count($category->subcategories)>0)
-                                                <li> <a href="">Meat & Poultry</a>
+                                                @foreach ($category->subCategories as $subcat )
+                                                <li> 
+                                               <a href="{{route('products.category',$subcat->slug)}}"> {{$subcat->name}}</a>
                                                 </li>
-                                                @endif
+                                                @endforeach 
                                             </ul>
                                         </li>
                                         @endforeach
@@ -344,6 +353,7 @@ $generalsetting = \App\GeneralSetting::first();
                         </div>
                     </div>
                 </nav>
+                
                 <div class="mobile-search--slidebar">
                     <div class="mobile-search--content">
                         <div class="mobile-search__header">

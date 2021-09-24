@@ -134,6 +134,10 @@ Route::get('/privacypolicy', 'HomeController@privacypolicy')->name('privacypolic
 Route::group(['middleware' => ['user', 'verified']], function(){
 	Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
 	Route::get('/profile', 'HomeController@profile')->name('profile');
+	Route::get('/order','HomeController@orders')->name('order');
+	Route::get('/returns','HomeController@returns')->name('return');
+	Route::get('/cancel','HomeController@cancel')->name('cancel');
+	Route::get('/review','HomeController@review')->name('review');
 	Route::post('/customer/update-profile', 'HomeController@customer_update_profile')->name('customer.profile.update');
 	Route::post('/seller/update-profile', 'HomeController@seller_update_profile')->name('seller.profile.update');
 
