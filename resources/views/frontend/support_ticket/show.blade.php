@@ -51,6 +51,7 @@
                                                     <div class="pl-3">
                                                         <div class="block-image d-block size-40" data-toggle="tooltip" data-title="{{ $ticketreply->user->name }}">
                                                             
+                                                            
                                                             @if($ticketreply->user->avatar_original === null)
                                                                 <img src="{{ asset($ticketreply->user->avatar_original) }}" class="rounded-circle">
                                                             @else
